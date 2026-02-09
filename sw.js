@@ -1,25 +1,10 @@
-const cacheName = 'ybg-v1';
-const assets = [
-  './',
-  './index.html',
-  './logo.png',
-  './qr-code.png'
-];
+const cacheName = 'ybg-v2';
+const assets = ['./', './index.html', './logo.png', './qr-code.png'];
 
-// Install Service Worker
-self.addEventListener('install', evt => {
-  evt.waitUntil(
-    caches.open(cacheName).then(cache => {
-      cache.addAll(assets);
-    })
-  );
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(cacheName).then(c => c.addAll(assets)));
 });
 
-// Fetch events
-self.addEventListener('fetch', evt => {
-  evt.respondWith(
-    caches.match(evt.request).then(res => {
-      return res || fetch(evt.request);
-    })
-  );
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
 });
