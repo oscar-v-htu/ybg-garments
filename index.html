@@ -1,85 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body { background: #0a0a0a; color: #d4af37; text-align: center; font-family: serif; padding: 20px; line-height: 1.6; }
-.gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: 0 auto; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { --bg: #0a0a0a; --text: #d4af37; --card: #1a1a1a; }
+        .light-mode { --bg: #f4f4f4; --text: #800000; --card: #ffffff; }
+        
+        body { background: var(--bg); color: var(--text); text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; transition: 0.5s; }
+        
+        /* Floating Toggle Button */
+        .theme-toggle { position: fixed; top: 20px; right: 20px; padding: 10px; cursor: pointer; background: var(--text); color: var(--bg); border-radius: 50%; border: none; font-weight: bold; z-index: 1000; }
 
-/* The Glow and Zoom Effect */
-.item { 
-    width: 220px; margin-bottom: 40px; background: #1a1a1a; padding: 15px; border-radius: 10px; 
-    border: 1px solid #333; cursor: pointer; transition: all 0.4s ease; 
-}
-.item:hover { 
-    transform: translateY(-10px) scale(1.03); 
-    border-color: #d4af37; 
-    box-shadow: 0px 0px 20px rgba(212, 175, 55, 0.4); 
-}
+        .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: 0 auto; }
+        
+        .item { 
+            width: 220px; margin-bottom: 40px; background: var(--card); padding: 15px; border-radius: 10px; 
+            border: 1px solid #333; cursor: pointer; transition: 0.4s; position: relative;
+        }
+        .item:hover { transform: translateY(-10px); box-shadow: 0px 10px 20px rgba(0,0,0,0.5); border-color: var(--text); }
+        
+        img { width: 100%; border-radius: 5px; height: 280px; object-fit: cover; }
+        
+        /* Order Popup Notification */
+        #order-notif { 
+            position: fixed; bottom: 20px; left: 20px; background: #25D366; color: white; 
+            padding: 15px; border-radius: 10px; display: none; animation: slideIn 0.5s; z-index: 1000;
+        }
+        @keyframes slideIn { from { left: -200px; } to { left: 20px; } }
 
-img { width: 100%; border: 1px solid #d4af37; border-radius: 5px; height: 280px; object-fit: cover; }
-.name { color: #ffffff; font-weight: bold; margin-top: 10px; font-size: 0.9em; text-transform: uppercase; min-height: 40px; display: flex; align-items: center; justify-content: center; }
-.price { font-family: sans-serif; margin-top: 5px; color: #d4af37; font-size: 1.1em; }
-
-.btn { background: #25D366; color: white !important; padding: 15px 35px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; margin: 20px 0; font-family: sans-serif; border: 1px solid #fff; }
-.survey-btn { background: #333; color: #d4af37; border: 1px solid #d4af37; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-bottom: 40px; font-size: 0.8em; }
-h2 { border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 60px; text-transform: uppercase; letter-spacing: 3px; }
-</style>
+        .btn { background: #25D366; color: white !important; padding: 15px 35px; text-decoration: none; border-radius: 50px; display: inline-block; margin: 20px 0; font-weight: bold; }
+        .survey-btn { background: var(--card); color: var(--text); border: 2px solid var(--text); padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; }
+    </style>
 </head>
 <body>
 
+<button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+
+<div id="order-notif">Someone in Ho just ordered a Kaftan! 🔥</div>
+
 <h1>YBG GARMENTS</h1>
-<p style="letter-spacing:5px;">PREMIUM BESPOKE TAILORING | ACCRA</p>
-<hr style="width:20%; border: 0.5px solid #d4af37; margin: 20px auto;">
-<p style="font-size: 0.8em; color: #aaa;">Click any style to inquire on WhatsApp</p>
+<p style="letter-spacing:5px;">BESPOKE TAILORING PILOT STUDY</p>
 
-<h2>TRADITIONAL COLLECTION</h2>
 <div class="gallery">
-    <div class="item" onclick="orderDress('The Ashanti Royal')"><img src="1.jpg"><div class="name">The Ashanti Royal</div><div class="price">GH₵ 450</div></div>
-    <div class="item" onclick="orderDress('Accra Executive')"><img src="2.jpg"><div class="name">Accra Executive</div><div class="price">GH₵ 380</div></div>
-    <div class="item" onclick="orderDress('Heritage Agbada')"><img src="3.jpg"><div class="name">Heritage Agbada</div><div class="price">GH₵ 500</div></div>
-    <div class="item" onclick="orderDress('Black Star Suite')"><img src="4.jpg"><div class="name">Black Star Suite</div><div class="price">GH₵ 420</div></div>
-    <div class="item" onclick="orderDress('The Nobleman')"><img src="5.jpg"><div class="name">The Nobleman</div><div class="price">GH₵ 350</div></div>
-    <div class="item" onclick="orderDress('Volta Classic')"><img src="6.jpg"><div class="name">Volta Classic</div><div class="price">GH₵ 480</div></div>
-    <div class="item" onclick="orderDress('The Ceremonial')"><img src="7.jpg"><div class="name">The Ceremonial</div><div class="price">GH₵ 550</div></div>
-    <div class="item" onclick="orderDress('Gold Coast Kaftan')"><img src="8.jpg"><div class="name">Gold Coast Kaftan</div><div class="price">GH₵ 390</div></div>
-    <div class="item" onclick="orderDress('The Statesman')"><img src="9.jpg"><div class="name">The Statesman</div><div class="price">GH₵ 410</div></div>
-    <div class="item" onclick="orderDress('Bespoke Masterpiece')"><img src="10.jpg"><div class="name">Bespoke Masterpiece</div><div class="price">GH₵ 600</div></div>
-    <div class="item" onclick="orderDress('The Elders Tunic')"><img src="11.jpg"><div class="name">The Elders Tunic</div><div class="price">GH₵ 320</div></div>
+    <div class="item" onclick="orderDress('The Ashanti Royal')"><img src="1.jpg"><div class="name">Ashanti Royal</div><div>GH₵ 450</div></div>
+    <div class="item" onclick="orderDress('Accra Executive')"><img src="2.jpg"><div class="name">Accra Executive</div><div>GH₵ 380</div></div>
+    <div class="item" onclick="orderDress('Heritage Agbada')"><img src="3.jpg"><div class="name">Heritage Agbada</div><div>GH₵ 500</div></div>
+    <div class="item" onclick="orderDress('Osu Streetwear')"><img src="casual_3.jpg"><div class="name">Osu Streetwear</div><div>GH₵ 150</div></div>
+    <div class="item" onclick="orderDress('Labone Smart')"><img src="casual_5.jpg"><div class="name">Labone Smart</div><div>GH₵ 200</div></div>
 </div>
 
-<h2>CASUAL COLLECTION</h2>
-<div class="gallery">
-    <div class="item" onclick="orderDress('Osu Streetwear')"><img src="casual_3.jpg"><div class="name">Osu Streetwear</div><div class="price">GH₵ 150</div></div>
-    <div class="item" onclick="orderDress('Accra Urban')"><img src="casual_4.jpg"><div class="name">Accra Urban</div><div class="price">GH₵ 175</div></div>
-    <div class="item" onclick="orderDress('Labone Smart')"><img src="casual_5.jpg"><div class="name">Labone Smart</div><div class="price">GH₵ 200</div></div>
-    <div class="item" onclick="orderDress('Tema Trendsetter')"><img src="casual_6.jpg"><div class="name">Tema Trendsetter</div><div class="price">GH₵ 190</div></div>
-    <div class="item" onclick="orderDress('Friday Office Wear')"><img src="casual_7.jpg"><div class="name">Friday Office Wear</div><div class="price">GH₵ 220</div></div>
-    <div class="item" onclick="orderDress('Coastal Breeze')"><img src="casual_8.jpg"><div class="name">Coastal Breeze</div><div class="price">GH₵ 165</div></div>
-    <div class="item" onclick="orderDress('Urban Tailor')"><img src="casual_9.jpg"><div class="name">Urban Tailor</div><div class="price">GH₵ 185</div></div>
-</div>
-
-<a href="https://wa.me/233544869192" target="_blank" class="btn">CHAT ON WHATSAPP</a>
+<br><br>
+<a href="https://wa.me/233544869192" class="btn">CHAT ON WHATSAPP</a>
 <br>
-<a href="https://forms.google.com" target="_blank" class="survey-btn">STUDENT RESEARCH SURVEY</a>
+<a href="YOUR_GOOGLE_FORM_LINK" class="survey-btn">TAKE RESEARCH SURVEY</a>
 
 <script>
-function orderDress(dressName) {
-    let response = confirm("Would you like to order " + dressName + "?");
-    if (response) {
-        let message = "Hello YBG Garments, I really love this style: " + dressName + ". Is this still available?";
-        let encodedMessage = encodeURIComponent(message);
-        window.open("https://wa.me/233544869192?text=" + encodedMessage, "_blank");
+    // 1. Theme Toggle Logic
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
     }
-}
+
+    // 2. Order Logic
+    function orderDress(name) {
+        if(confirm("Order " + name + " via WhatsApp?")) {
+            window.open("https://wa.me/233544869192?text=I want to order " + name);
+        }
+    }
+
+    // 3. Fake Live Notification (Simulation)
+    setTimeout(() => {
+        document.getElementById('order-notif').style.display = 'block';
+        setTimeout(() => { document.getElementById('order-notif').style.display = 'none'; }, 4000);
+    }, 3000);
 </script>
 
-<div style="margin-top: 50px;">
-    <p style="color: #666; font-size: 0.7em; margin-bottom: 5px;">SITE VISITORS</p>
-    <img src="https://hitwebcounter.com/counter/counter.php?page=10000000&style=0005&nbdigits=5&type=page&initCount=0" title="Free Website Visitor Counter" Alt="web counter" border="0" />
-</div>
-
-<p style="color:#444; font-size: 0.8em; margin-top: 20px;">&copy; 2026 YBG Garments Accra | Faculty of Applied Sciences Research Project</p>
 </body>
 </html>
