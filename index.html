@@ -19,47 +19,41 @@
         }
         body { 
             background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; 
-            margin: 0; padding: 0 0 100px 0; 
-            overflow-x: hidden; transition: 0.3s ease;
+            margin: 0; padding: 0 0 100px 0; overflow-x: hidden; transition: 0.3s ease;
         }
 
-        /* Welcome Overlay */
-        #welcome-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 9999;
-            display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(8px);
+        /* App Header */
+        .app-header {
+            background: var(--nav-bg); padding: 15px 20px; border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 2000; display: flex; align-items: center; justify-content: space-between;
         }
-        .welcome-card {
-            background: var(--card); border: 2px solid var(--gold);
-            padding: 30px; border-radius: 20px; width: 85%; max-width: 400px;
-            text-align: center; animation: popIn 0.5s ease;
-        }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        /* Navigation */
-        .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; right: 0; height: 80px; 
-            background: var(--nav-bg); border-top: 1px solid var(--border); 
-            display: flex; justify-content: space-around; align-items: center; z-index: 3000;
-        }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: #777; flex: 1; cursor: pointer; }
-        .nav-item.active { color: var(--gold); }
-        .nav-item i { font-style: normal; font-size: 1.8rem; }
-        .nav-item span { font-size: 0.85rem; font-weight: 600; }
-
-        /* General UI */
-        .app-header { background: var(--nav-bg); padding: 18px 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 2000; display: flex; justify-content: space-between; align-items: center; }
-        .logo-area img { height: 40px; border-radius: 50%; border: 1px solid var(--gold); margin-right: 12px; }
+        .logo-btn { display: flex; align-items: center; cursor: pointer; border: none; background: none; padding: 0; }
+        .logo-btn img { height: 40px; border-radius: 50%; border: 2px solid var(--gold); margin-right: 12px; transition: 0.2s; }
+        .logo-btn:active img { transform: scale(0.9); }
         .logo-area span { font-weight: 900; letter-spacing: 3px; color: var(--gold); font-size: 1.3rem; }
+
+        /* Settings Slide-out Menu */
+        #settings-menu {
+            position: fixed; top: 0; left: -100%; width: 80%; max-width: 300px; height: 100%;
+            background: var(--nav-bg); z-index: 5000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5); padding: 30px 20px; box-sizing: border-box;
+        }
+        #settings-menu.open { left: 0; }
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 4500; }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid var(--border); color: var(--text); cursor: pointer; font-weight: 600; }
+
+        /* General UI components */
         .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px; }
         .product-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); overflow: hidden; }
         .product-card img { width: 100%; height: 200px; object-fit: cover; }
         .add-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
         
-        #cart-view { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; background: var(--bg); z-index: 4000; transition: 0.4s; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; }
-        #cart-view.open { right: 0; }
-        
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 80px; background: var(--nav-bg); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 3000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #777; flex: 1; cursor: pointer; }
+        .nav-item.active { color: var(--gold); }
+        .nav-item i { font-style: normal; font-size: 1.8rem; }
+        .nav-item span { font-size: 0.85rem; font-weight: 600; }
+
         .page-section { display: none; padding: 20px; animation: slideIn 0.3s ease-out; }
         .active-section { display: block; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -67,81 +61,65 @@
 </head>
 <body>
 
-<div id="welcome-overlay">
-    <div class="welcome-card">
-        <div style="font-size: 3rem;">🇬🇭</div>
-        <h2 style="color:var(--gold);">Akwaaba!</h2>
-        <p style="font-size: 0.9rem; line-height: 1.5;">Welcome to the **YBG Garments** Research Portal. <br><br> 
-        1. Explore the **Shop** <br> 
-        2. **Save** your favorite styles <br> 
-        3. Complete the **Survey** to help my research.</p>
-        <button onclick="closeWelcome()" class="add-btn" style="margin-top: 20px;">GET STARTED</button>
+<div id="menu-overlay" class="menu-overlay" onclick="toggleSettings()"></div>
+
+<div id="settings-menu">
+    <h2 style="color:var(--gold); margin-top:0;">Account</h2>
+    <div class="menu-item" onclick="toggleTheme()">
+        <span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span>
     </div>
+    <div class="menu-item" onclick="navTo('contact', document.querySelectorAll('.nav-item')[3]); toggleSettings();">
+        <span>❓</span> Help & Support
+    </div>
+    <div class="menu-item" onclick="resetApp()">
+        <span>🔄</span> Reset App Data
+    </div>
+    <p style="position:absolute; bottom:20px; font-size:0.7rem; color:#555;">YBG v2.0 | HTU Research</p>
 </div>
 
 <div class="app-header">
     <div class="logo-area">
-        <img src="logo.png" alt="YBG">
-        <span>YBG</span>
+        <button class="logo-btn" onclick="toggleSettings()">
+            <img src="logo.png" alt="YBG Logo">
+            <span>YBG</span>
+        </button>
     </div>
-    <div style="display:flex; gap:15px; align-items:center;">
-        <div onclick="toggleTheme()" style="font-size:1.5rem; cursor:pointer;" id="theme-btn">🌓</div>
-        <div style="position:relative; font-size:1.6rem; color:var(--gold); cursor:pointer;" onclick="toggleCart()">
-            👜 <span id="count-display" style="position:absolute; top:-5px; right:-8px; background:var(--red); color:white; font-size:0.7rem; padding:2px 6px; border-radius:50%;">0</span>
-        </div>
+    <div style="position:relative; font-size:1.6rem; color:var(--gold); cursor:pointer;" onclick="toggleCart()">
+        👜 <span id="count-display" style="position:absolute; top:-5px; right:-8px; background:var(--red); color:white; font-size:0.7rem; padding:2px 6px; border-radius:50%;">0</span>
     </div>
 </div>
 
 <section id="home" class="page-section active-section">
     <div style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('1.jpg'); background-size: cover; background-position: center; padding: 50px 20px; border-radius: 20px; border: 1px solid var(--gold); text-align: left;">
         <h1 style="margin: 0; font-size: 2rem; color: var(--gold);">YBG APPLIED</h1>
-        <p style="font-size: 0.9rem; color: #fff;">Bespoke Tailoring Research Portal.</p>
+        <p style="font-size: 0.9rem; color: #fff;">Tap the logo for settings.</p>
     </div>
-    <div style="text-align:center; margin-top:20px;">
-        <p style="font-weight:bold; font-size:0.9rem;">SCAN TO INSTALL APP</p>
-        <div style="margin: 10px auto; background: #fff; padding: 15px; border-radius: 15px; width: 150px; border: 2px solid var(--gold);">
-            <img src="qr-code.png" style="width:100%;" onerror="this.src='https://via.placeholder.com/150?text=QR'">
-        </div>
+    
+    <div style="text-align:center; margin-top:20px; background:#fff; padding:15px; border-radius:15px; width:150px; margin-inline:auto; border:2px solid var(--gold);">
+        <img src="qr-code.png" style="width:100%;" onerror="this.src='https://via.placeholder.com/150?text=QR'">
     </div>
 </section>
 
 <section id="shop" class="page-section">
-    <h3 style="text-align: left;">Collection 2026</h3>
     <div class="product-grid" id="full-catalog"></div>
 </section>
 
 <section id="research" class="page-section">
     <div style="background: var(--card); padding: 30px; border-radius: 20px; border-left: 6px solid var(--gold); text-align: left;">
-        <h2 style="margin:0;">Pilot Study</h2>
-        <p style="color:#888;">Faculty of Applied Sciences</p>
-        <p>Complete the survey after exploring the app features.</p>
-        <a href="https://forms.gle/nLsnz3AHNyujHTZe8" class="add-btn" style="display:block; text-align:center; text-decoration:none;">OPEN GOOGLE FORM</a>
+        <h3>Final Survey</h3>
+        <a href="https://forms.gle/RWWks1ccowcLM8uh6" class="add-btn" style="display:block; text-align:center; text-decoration:none;">START</a>
     </div>
 </section>
 
 <section id="contact" class="page-section">
     <div style="background:var(--card); padding:25px; border-radius:20px;">
-        <h3 style="margin-top:0;">Contact Support</h3>
         <form action="https://formspree.io/f/mpqjwdlq" method="POST">
-            <input type="hidden" name="_next" value="https://oscar-v-htu.github.io/ybg-garments/success.html">
             <input type="text" name="name" placeholder="Your Name" style="width:100%; padding:15px; margin-bottom:15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:10px; box-sizing:border-box;" required>
-            <textarea name="message" rows="4" placeholder="Message..." style="width:100%; padding:15px; margin-bottom:15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:10px; box-sizing:border-box;" required></textarea>
+            <textarea name="message" rows="4" placeholder="How can we help?" style="width:100%; padding:15px; margin-bottom:15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:10px; box-sizing:border-box;" required></textarea>
             <button type="submit" class="add-btn">SEND</button>
         </form>
     </div>
 </section>
-
-<div id="cart-view">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="color:var(--gold); margin:0;">My Bag</h2>
-        <span onclick="toggleCart()" style="font-size: 2.5rem; color: var(--gold); cursor:pointer;">×</span>
-    </div>
-    <div id="cart-list" style="flex-grow:1; margin-top:20px; overflow-y:auto;"></div>
-    <div style="padding-top:20px;">
-        <button onclick="checkoutWhatsApp()" class="add-btn" style="margin-bottom:10px;">ORDER ON WHATSAPP</button>
-        <button onclick="clearCart()" style="background:transparent; color:var(--red); border:1px solid var(--red); width:100%; padding:12px; border-radius:10px; font-weight:bold; cursor:pointer;">CLEAR ALL</button>
-    </div>
-</div>
 
 <nav class="bottom-nav">
     <div class="nav-item active" onclick="navTo('home', this)"><i>🏠</i><span>Home</span></div>
@@ -178,13 +156,12 @@
     let isLight = localStorage.getItem('ybg_theme') === 'light';
 
     function init() {
-        // Handle Welcome Overlay
-        if (!localStorage.getItem('ybg_visited')) {
-            document.getElementById('welcome-overlay').style.display = 'flex';
+        if(isLight) { 
+            document.body.classList.add('light-mode'); 
+            document.getElementById('theme-icon').innerText = '☀️';
+            document.getElementById('theme-text').innerText = 'Light Mode';
         }
-
-        if(isLight) { document.body.classList.add('light-mode'); document.getElementById('theme-btn').innerText = '🌙'; }
-        updateCartUI();
+        document.getElementById('count-display').innerText = cart.length;
         
         const grid = document.getElementById('full-catalog');
         items.forEach(p => {
@@ -200,37 +177,41 @@
         });
     }
 
-    function closeWelcome() {
-        localStorage.setItem('ybg_visited', 'true');
-        document.getElementById('welcome-overlay').style.display = 'none';
+    function toggleSettings() {
+        document.getElementById('settings-menu').classList.toggle('open');
+        const overlay = document.getElementById('menu-overlay');
+        overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
     }
 
     function toggleTheme() {
         document.body.classList.toggle('light-mode');
         const light = document.body.classList.contains('light-mode');
         localStorage.setItem('ybg_theme', light ? 'light' : 'dark');
-        document.getElementById('theme-btn').innerText = light ? '🌙' : '☀️';
+        document.getElementById('theme-icon').innerText = light ? '☀️' : '🌙';
+        document.getElementById('theme-text').innerText = light ? 'Light Mode' : 'Dark Mode';
+    }
+
+    function resetApp() {
+        if(confirm("Reset all saved data and cart?")) {
+            localStorage.clear();
+            location.reload();
+        }
+    }
+
+    function navTo(id, el) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+        document.getElementById(id).classList.add('active-section');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
+        window.scrollTo(0,0);
     }
 
     function addToCart(n) {
         cart.push(n);
         localStorage.setItem('ybg_cart', JSON.stringify(cart));
-        updateCartUI();
-        alert(n + " added to bag!");
-    }
-
-    function updateCartUI() {
         document.getElementById('count-display').innerText = cart.length;
-        const list = document.getElementById('cart-list');
-        list.innerHTML = cart.length === 0 ? "<p style='text-align:center; color:#888;'>Your bag is empty.</p>" : 
-            cart.map((name, idx) => `<div style="padding:15px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between;"><span>${name}</span><span onclick="removeItem(${idx})" style="color:var(--red); font-weight:bold; cursor:pointer;">REMOVE</span></div>`).join('');
+        alert(n + " added!");
     }
-
-    function removeItem(idx) { cart.splice(idx, 1); localStorage.setItem('ybg_cart', JSON.stringify(cart)); updateCartUI(); }
-    function clearCart() { if(confirm("Clear Bag?")) { cart = []; localStorage.setItem('ybg_cart', JSON.stringify(cart)); updateCartUI(); } }
-    function navTo(id, el) { document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section')); document.getElementById(id).classList.add('active-section'); document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); el.classList.add('active'); window.scrollTo(0,0); }
-    function toggleCart() { document.getElementById('cart-view').classList.toggle('open'); }
-    function checkoutWhatsApp() { window.open(`https://wa.me/233544869192?text=Inquiry: ${cart.join(", ")}`); }
 
     init();
 </script>
