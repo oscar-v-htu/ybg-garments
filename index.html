@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YBG Garments - HTU Research Project</title>
     <style>
         :root { --gold: #d4af37; --bg: #0a0a0a; --card: #1a1a1a; --red: #ff4d4d; --blue: #00aaff; }
         body { background: var(--bg); color: var(--gold); text-align: center; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
@@ -10,71 +11,70 @@
         .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; max-width: 1200px; margin: 0 auto; }
         
         .item { 
-            width: 180px; background: var(--card); padding: 12px; border-radius: 12px; 
+            width: 165px; background: var(--card); padding: 12px; border-radius: 12px; 
             border: 1px solid #333; cursor: pointer; transition: 0.3s; position: relative;
         }
         .item:hover { transform: translateY(-5px); border-color: var(--gold); }
         
-        img { width: 100%; border-radius: 8px; height: 240px; object-fit: cover; }
-        
-        /* Icons Container */
+        img { width: 100%; border-radius: 8px; height: 220px; object-fit: cover; }
+        .name { color: white; font-size: 0.75em; margin-top: 8px; text-transform: uppercase; height: 35px; overflow: hidden; }
+        .price { color: var(--gold); font-size: 1em; font-weight: bold; }
+
         .icon-bar { position: absolute; top: 15px; right: 10px; display: flex; flex-direction: column; gap: 10px; z-index: 10; }
-        .heart-icon, .share-icon { font-size: 1.3rem; transition: 0.3s; color: rgba(255, 255, 255, 0.6); cursor: pointer; }
+        .heart-icon, .share-icon { font-size: 1.2rem; transition: 0.3s; color: rgba(255, 255, 255, 0.5); cursor: pointer; }
         .heart-icon.liked { color: var(--red); transform: scale(1.2); }
         .share-icon:hover { color: var(--blue); }
 
-        /* Notification Toast */
-        #toast { 
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
-            background: var(--gold); color: black; padding: 10px 20px; border-radius: 50px; 
-            font-weight: bold; display: none; z-index: 3000; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
+        #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 10px 20px; border-radius: 50px; font-weight: bold; display: none; z-index: 3000; }
 
-        /* Modal styling remains the same */
-        #customModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
-        .modal-content { background: var(--card); margin: 20% auto; padding: 30px; border: 2px solid var(--gold); width: 85%; max-width: 350px; border-radius: 20px; animation: popIn 0.3s ease; }
+        #customModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); }
+        .modal-content { background: var(--card); margin: 20% auto; padding: 30px; border: 2px solid var(--gold); width: 80%; max-width: 350px; border-radius: 20px; animation: popIn 0.3s ease; }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal-btn { padding: 12px 20px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
+        .modal-btn { padding: 12px; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
         .confirm-btn { background: var(--gold); color: black; }
         .cancel-btn { background: transparent; color: #888; border: 1px solid #444; }
+
+        .survey-btn { background: var(--gold); color: black; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; margin: 40px 0; }
     </style>
 </head>
 <body>
 
-<div id="toast">Link copied to clipboard! 📋</div>
+<div id="toast">Link copied! 🔗</div>
 
 <h1>YBG GARMENTS</h1>
-<p style="font-size: 0.8em; color: #888; letter-spacing: 2px;">INTERACTIVE CATALOG v2.0</p>
+<p style="font-size: 0.8em; letter-spacing: 2px;">HTU FACULTY OF APPLIED SCIENCES RESEARCH</p>
 
+<h2>TRADITIONAL COLLECTION</h2>
 <div class="gallery">
-    <div class="item">
-        <div class="icon-bar">
-            <span class="heart-icon" onclick="toggleLike(this, event)">❤</span>
-            <span class="share-icon" onclick="shareItem('The Ashanti Royal', event)">🔗</span>
-        </div>
-        <div onclick="showModal('The Ashanti Royal')">
-            <img src="1.jpg">
-            <div class="name" style="color:white; font-size: 0.8em; margin-top:5px;">ASHANTI ROYAL</div>
-            <div class="price">GH₵ 450</div>
-        </div>
-    </div>
-
-    <div class="item">
-        <div class="icon-bar">
-            <span class="heart-icon" onclick="toggleLike(this, event)">❤</span>
-            <span class="share-icon" onclick="shareItem('Accra Executive', event)">🔗</span>
-        </div>
-        <div onclick="showModal('Accra Executive')">
-            <img src="2.jpg">
-            <div class="name" style="color:white; font-size: 0.8em; margin-top:5px;">ACCRA EXECUTIVE</div>
-            <div class="price">GH₵ 380</div>
-        </div>
-    </div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Ashanti Royal', event)">🔗</span></div><div onclick="showModal('Ashanti Royal')"><img src="1.jpg"><div class="name">Ashanti Royal</div><div class="price">GH₵ 450</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Accra Executive', event)">🔗</span></div><div onclick="showModal('Accra Executive')"><img src="2.jpg"><div class="name">Accra Executive</div><div class="price">GH₵ 380</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Heritage Agbada', event)">🔗</span></div><div onclick="showModal('Heritage Agbada')"><img src="3.jpg"><div class="name">Heritage Agbada</div><div class="price">GH₵ 500</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Black Star', event)">🔗</span></div><div onclick="showModal('Black Star')"><img src="4.jpg"><div class="name">Black Star</div><div class="price">GH₵ 420</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('The Nobleman', event)">🔗</span></div><div onclick="showModal('The Nobleman')"><img src="5.jpg"><div class="name">The Nobleman</div><div class="price">GH₵ 350</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Volta Classic', event)">🔗</span></div><div onclick="showModal('Volta Classic')"><img src="6.jpg"><div class="name">Volta Classic</div><div class="price">GH₵ 480</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('The Ceremonial', event)">🔗</span></div><div onclick="showModal('The Ceremonial')"><img src="7.jpg"><div class="name">The Ceremonial</div><div class="price">GH₵ 550</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Gold Coast', event)">🔗</span></div><div onclick="showModal('Gold Coast')"><img src="8.jpg"><div class="name">Gold Coast</div><div class="price">GH₵ 390</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('The Statesman', event)">🔗</span></div><div onclick="showModal('The Statesman')"><img src="9.jpg"><div class="name">The Statesman</div><div class="price">GH₵ 410</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Masterpiece', event)">🔗</span></div><div onclick="showModal('Masterpiece')"><img src="10.jpg"><div class="name">Masterpiece</div><div class="price">GH₵ 600</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Elders Tunic', event)">🔗</span></div><div onclick="showModal('Elders Tunic')"><img src="11.jpg"><div class="name">Elders Tunic</div><div class="price">GH₵ 320</div></div></div>
 </div>
+
+<h2>CASUAL COLLECTION</h2>
+<div class="gallery">
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Osu Street', event)">🔗</span></div><div onclick="showModal('Osu Street')"><img src="casual_3.jpg"><div class="name">Osu Street</div><div class="price">GH₵ 150</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Accra Urban', event)">🔗</span></div><div onclick="showModal('Accra Urban')"><img src="casual_4.jpg"><div class="name">Accra Urban</div><div class="price">GH₵ 175</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Labone Smart', event)">🔗</span></div><div onclick="showModal('Labone Smart')"><img src="casual_5.jpg"><div class="name">Labone Smart</div><div class="price">GH₵ 200</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Tema Trend', event)">🔗</span></div><div onclick="showModal('Tema Trend')"><img src="casual_6.jpg"><div class="name">Tema Trend</div><div class="price">GH₵ 190</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Friday Wear', event)">🔗</span></div><div onclick="showModal('Friday Wear')"><img src="casual_7.jpg"><div class="name">Friday Wear</div><div class="price">GH₵ 220</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Coastal Breeze', event)">🔗</span></div><div onclick="showModal('Coastal Breeze')"><img src="casual_8.jpg"><div class="name">Coastal Breeze</div><div class="price">GH₵ 165</div></div></div>
+    <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Urban Tailor', event)">🔗</span></div><div onclick="showModal('Urban Tailor')"><img src="casual_9.jpg"><div class="name">Urban Tailor</div><div class="price">GH₵ 185</div></div></div>
+</div>
+
+<a href="https://forms.gle/oFCxFPu1ZxP4GDat6" class="survey-btn">TAKE RESEARCH SURVEY</a>
 
 <div id="customModal">
     <div class="modal-content">
-        <h3 id="modalTitle" style="color: white;">Interested?</h3>
+        <h3 id="modalTitle" style="color: white;">Order Style?</h3>
         <p id="modalText" style="color: #eee; font-size: 0.9em;"></p>
         <button class="modal-btn confirm-btn" onclick="goToWhatsApp()">ORDER ON WHATSAPP</button>
         <button class="modal-btn cancel-btn" onclick="closeModal()">BACK TO GALLERY</button>
@@ -83,33 +83,25 @@
 
 <script>
     let selectedDress = "";
-
     function toggleLike(el, ev) { el.classList.toggle('liked'); ev.stopPropagation(); }
-
     function shareItem(name, ev) {
         ev.stopPropagation();
-        const url = window.location.href;
-        navigator.clipboard.writeText("Check out this " + name + " style from YBG Garments: " + url);
-        
+        navigator.clipboard.writeText("Check out " + name + " from YBG Garments: " + window.location.href);
         const toast = document.getElementById('toast');
         toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 2500);
+        setTimeout(() => { toast.style.display = 'none'; }, 2000);
     }
-
     function showModal(name) {
         selectedDress = name;
-        document.getElementById('modalText').innerText = "Inquire about " + name + " via WhatsApp?";
+        document.getElementById('modalText').innerText = "Would you like to message YBG Garments about " + name + "?";
         document.getElementById('customModal').style.display = "block";
     }
-
     function closeModal() { document.getElementById('customModal').style.display = "none"; }
-
     function goToWhatsApp() {
         let msg = "Hello YBG Garments, I saw " + selectedDress + " on your site and want to order!";
         window.open("https://wa.me/233544869192?text=" + encodeURIComponent(msg), "_blank");
         closeModal();
     }
 </script>
-
 </body>
 </html>
