@@ -3,46 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YBG Garments - HTU Research Project</title>
     <style>
-        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #1a1a1a; --red: #ff4d4d; --blue: #00aaff; }
+        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #1a1a1a; --red: #ff4d4d; }
         body { background: var(--bg); color: var(--gold); text-align: center; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
-        
         .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; max-width: 1200px; margin: 0 auto; }
-        
-        .item { 
-            width: 165px; background: var(--card); padding: 12px; border-radius: 12px; 
-            border: 1px solid #333; cursor: pointer; transition: 0.3s; position: relative;
-        }
-        .item:hover { transform: translateY(-5px); border-color: var(--gold); }
-        
-        img { width: 100%; border-radius: 8px; height: 220px; object-fit: cover; }
-        .name { color: white; font-size: 0.75em; margin-top: 8px; text-transform: uppercase; height: 35px; overflow: hidden; }
-        .price { color: var(--gold); font-size: 1em; font-weight: bold; }
-
+        .item { width: 170px; background: var(--card); padding: 12px; border-radius: 12px; border: 1px solid #333; cursor: pointer; transition: 0.3s; position: relative; }
+        .item:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3); }
+        img { width: 100%; border-radius: 8px; height: 230px; object-fit: cover; }
+        .name { color: white; font-size: 0.75em; margin-top: 8px; text-transform: uppercase; height: 35px; }
         .icon-bar { position: absolute; top: 15px; right: 10px; display: flex; flex-direction: column; gap: 10px; z-index: 10; }
-        .heart-icon, .share-icon { font-size: 1.2rem; transition: 0.3s; color: rgba(255, 255, 255, 0.5); cursor: pointer; }
-        .heart-icon.liked { color: var(--red); transform: scale(1.2); }
-        .share-icon:hover { color: var(--blue); }
-
+        .heart-icon, .share-icon { font-size: 1.2rem; transition: 0.3s; color: rgba(255, 255, 255, 0.5); }
+        .heart-icon.liked { color: var(--red); }
         #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 10px 20px; border-radius: 50px; font-weight: bold; display: none; z-index: 3000; }
-
         #customModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); }
-        .modal-content { background: var(--card); margin: 20% auto; padding: 30px; border: 2px solid var(--gold); width: 80%; max-width: 350px; border-radius: 20px; animation: popIn 0.3s ease; }
-        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-content { background: var(--card); margin: 20% auto; padding: 30px; border: 2px solid var(--gold); width: 80%; max-width: 350px; border-radius: 20px; }
         .modal-btn { padding: 12px; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
         .confirm-btn { background: var(--gold); color: black; }
-        .cancel-btn { background: transparent; color: #888; border: 1px solid #444; }
-
         .survey-btn { background: var(--gold); color: black; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; margin: 40px 0; }
     </style>
 </head>
 <body>
-
 <div id="toast">Link copied! 🔗</div>
-
 <h1>YBG GARMENTS</h1>
-<p style="font-size: 0.8em; letter-spacing: 2px;">HTU FACULTY OF APPLIED SCIENCES RESEARCH</p>
+<p>PREMIUM BESPOKE TAILORING</p>
 
 <h2>TRADITIONAL COLLECTION</h2>
 <div class="gallery">
@@ -70,38 +53,16 @@
     <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Urban Tailor', event)">🔗</span></div><div onclick="showModal('Urban Tailor')"><img src="casual_9.jpg"><div class="name">Urban Tailor</div><div class="price">GH₵ 185</div></div></div>
 </div>
 
-<a href="https://forms.gle/oFCxFPu1ZxP4GDat6" class="survey-btn">TAKE RESEARCH SURVEY</a>
+<a href="https://forms.gle/HLNhg4aNDnNFWvpw8" class="survey-btn">TAKE RESEARCH SURVEY</a>
 
-<div id="customModal">
-    <div class="modal-content">
-        <h3 id="modalTitle" style="color: white;">Order Style?</h3>
-        <p id="modalText" style="color: #eee; font-size: 0.9em;"></p>
-        <button class="modal-btn confirm-btn" onclick="goToWhatsApp()">ORDER ON WHATSAPP</button>
-        <button class="modal-btn cancel-btn" onclick="closeModal()">BACK TO GALLERY</button>
-    </div>
-</div>
-
+<div id="customModal"><div class="modal-content"><h3 id="modalTitle" style="color: white;">Order Style?</h3><p id="modalText" style="color: #eee; font-size: 0.9em;"></p><button class="modal-btn confirm-btn" onclick="goToWhatsApp()">ORDER ON WHATSAPP</button><button class="modal-btn" style="color:#888" onclick="closeModal()">CLOSE</button></div></div>
 <script>
     let selectedDress = "";
     function toggleLike(el, ev) { el.classList.toggle('liked'); ev.stopPropagation(); }
-    function shareItem(name, ev) {
-        ev.stopPropagation();
-        navigator.clipboard.writeText("Check out " + name + " from YBG Garments: " + window.location.href);
-        const toast = document.getElementById('toast');
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 2000);
-    }
-    function showModal(name) {
-        selectedDress = name;
-        document.getElementById('modalText').innerText = "Would you like to message YBG Garments about " + name + "?";
-        document.getElementById('customModal').style.display = "block";
-    }
+    function shareItem(name, ev) { ev.stopPropagation(); navigator.clipboard.writeText("Check out " + name + " from YBG Garments: " + window.location.href); document.getElementById('toast').style.display = 'block'; setTimeout(() => { document.getElementById('toast').style.display = 'none'; }, 2000); }
+    function showModal(name) { selectedDress = name; document.getElementById('modalText').innerText = "Message YBG Garments about " + name + "?"; document.getElementById('customModal').style.display = "block"; }
     function closeModal() { document.getElementById('customModal').style.display = "none"; }
-    function goToWhatsApp() {
-        let msg = "Hello YBG Garments, I saw " + selectedDress + " on your site and want to order!";
-        window.open("https://wa.me/233544869192?text=" + encodeURIComponent(msg), "_blank");
-        closeModal();
-    }
+    function goToWhatsApp() { window.open("https://wa.me/233544869192?text=I saw " + selectedDress + " on your site and want to order!"); closeModal(); }
 </script>
 </body>
 </html>
