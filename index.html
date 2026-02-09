@@ -14,41 +14,56 @@
         nav a { color: white; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 0.75em; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
         nav a:hover { color: var(--gold); }
 
-        /* Page Layout */
+        /* Page Transitions */
         .page-section { display: none; padding: 40px 20px; animation: fadeIn 0.6s ease; max-width: 1100px; margin: 0 auto; }
         .active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Header */
+        /* Logo & Header */
         header { padding: 40px 0; }
         .logo-img { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--gold); padding: 5px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); background: #111; }
 
-        /* Gallery */
+        /* Catalog Gallery */
         .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
         .item { width: 165px; background: var(--card); padding: 12px; border-radius: 12px; border: 1px solid #333; cursor: pointer; position: relative; transition: 0.3s; }
-        .item:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .item:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
         img.dress-img { width: 100%; height: 220px; border-radius: 8px; object-fit: cover; }
         .icon-bar { position: absolute; top: 15px; right: 10px; display: flex; flex-direction: column; gap: 8px; z-index: 10; }
-        .heart-icon, .share-icon { font-size: 1.1rem; color: rgba(255,255,255,0.4); }
-        .heart-icon.liked { color: var(--red); }
+        .heart-icon, .share-icon { font-size: 1.1rem; color: rgba(255,255,255,0.4); transition: 0.3s; }
+        .heart-icon.liked { color: var(--red); transform: scale(1.2); }
 
-        /* Sections */
+        /* Info Cards & Buttons */
         .info-card { background: var(--card); padding: 30px; border-radius: 15px; border-left: 4px solid var(--gold); text-align: left; margin-bottom: 25px; }
-        .btn-gold { background: var(--gold); color: black; padding: 15px 35px; border-radius: 50px; font-weight: bold; border: none; cursor: pointer; text-decoration: none; display: inline-block; font-size: 0.9em; }
+        .btn-gold { background: var(--gold); color: black; padding: 15px 35px; border-radius: 50px; font-weight: bold; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: 0.3s; }
+        .btn-gold:hover { background: white; transform: scale(1.05); }
 
-        /* Form */
-        .contact-form { background: var(--card); padding: 30px; border-radius: 15px; text-align: left; max-width: 600px; margin: 0 auto; }
+        /* Contact Form */
+        .contact-form { background: var(--card); padding: 30px; border-radius: 15px; text-align: left; max-width: 600px; margin: 0 auto; border: 1px solid #333; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; color: white; margin-bottom: 5px; font-size: 0.85em; }
         .form-group input, .form-group textarea { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: white; border-radius: 8px; box-sizing: border-box; }
 
-        /* FAQ */
+        /* FAQ Accordion */
         .faq-item { background: var(--card); margin-bottom: 10px; border-radius: 10px; text-align: left; border: 1px solid #333; }
         .faq-q { padding: 15px; cursor: pointer; color: white; font-weight: bold; display: flex; justify-content: space-between; }
         .faq-a { padding: 0 15px; max-height: 0; overflow: hidden; transition: 0.3s; color: #888; font-size: 0.9em; }
         .faq-item.open .faq-a { max-height: 100px; padding-bottom: 15px; }
 
-        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 10px 20px; border-radius: 50px; display: none; z-index: 5000; }
+        /* Toast & Floating WhatsApp */
+        #toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 10px 20px; border-radius: 50px; display: none; z-index: 5000; font-weight: bold; }
+        
+        .floating-whatsapp { 
+            position: fixed; bottom: 25px; right: 25px; background: #25D366; color: white; 
+            width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-size: 30px; text-decoration: none; z-index: 4000; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: 0.3s; 
+        }
+        .floating-whatsapp:hover { transform: scale(1.1); }
+        .floating-whatsapp::after { 
+            content: ''; position: absolute; width: 100%; height: 100%; border-radius: 50%; 
+            border: 2px solid #25D366; animation: pulse 2s infinite; 
+        }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
     </style>
 </head>
 <body>
@@ -66,34 +81,31 @@
     <header>
         <img src="logo.png" onerror="this.src='https://via.placeholder.com/120/111/d4af37?text=YBG'" class="logo-img">
         <h1 style="letter-spacing: 12px; margin-bottom: 0;">YBG</h1>
-        <p style="color:white; letter-spacing: 5px; font-size: 0.8em;">GARMENTS</p>
+        <p style="color:white; letter-spacing: 5px; font-size: 0.8em; font-weight: bold;">GARMENTS</p>
     </header>
 
     <div class="info-card">
-        <h2>Meet The Master Tailor</h2>
-        <p style="color:#aaa;">At YBG Garments, we merge traditional Ghanaian artistry with modern precision. Every stitch is handled with the expertise required to make you stand out in any corporate or social gathering.</p>
+        <h2>Excellence in Bespoke Tailoring</h2>
+        <p style="color:#aaa;">At YBG Garments, we combine premium Ghanaian textiles with modern corporate styles. Our master tailor ensures every stitch reflects your personal prestige.</p>
         <button class="btn-gold" onclick="showPage('shop')">View 2026 Collection</button>
     </div>
 
-    <h3>HOW IT WORKS</h3>
-    <div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center;">
-        <div style="background:var(--card); padding:20px; border-radius:10px; width:250px;">
-            <h4>01. Select</h4>
-            <p style="font-size:0.8em; color:#888;">Choose your favorite style from our digital catalog.</p>
+    <h3 style="margin-top: 50px; letter-spacing: 3px;">HOW IT WORKS</h3>
+    <div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-bottom: 40px;">
+        <div style="background:var(--card); padding:20px; border-radius:10px; width:220px; border:1px solid #333;">
+            <h2 style="margin:0;">👔</h2><h4>1. Select</h4><p style="font-size:0.8em; color:#888;">Choose a style from our catalog.</p>
         </div>
-        <div style="background:var(--card); padding:20px; border-radius:10px; width:250px;">
-            <h4>02. Measure</h4>
-            <p style="font-size:0.8em; color:#888;">Send your sizes via WhatsApp for a bespoke fit.</p>
+        <div style="background:var(--card); padding:20px; border-radius:10px; width:220px; border:1px solid #333;">
+            <h2 style="margin:0;">📏</h2><h4>2. Measure</h4><p style="font-size:0.8em; color:#888;">Send sizes via WhatsApp chat.</p>
         </div>
-        <div style="background:var(--card); padding:20px; border-radius:10px; width:250px;">
-            <h4>03. Deliver</h4>
-            <p style="font-size:0.8em; color:#888;">Receive your garment anywhere in Ghana or HTU campus.</p>
+        <div style="background:var(--card); padding:20px; border-radius:10px; width:220px; border:1px solid #333;">
+            <h2 style="margin:0;">🚚</h2><h4>3. Receive</h4><p style="font-size:0.8em; color:#888;">Get your garment delivered to HTU.</p>
         </div>
     </div>
 </section>
 
 <section id="shop" class="page-section">
-    <h2>TRADITIONAL</h2>
+    <h2 style="letter-spacing: 5px;">2026 CATALOG</h2>
     <div class="gallery">
         <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Ashanti Royal', event)">🔗</span></div><div onclick="showModal('Ashanti Royal')"><img src="1.jpg" class="dress-img"><div class="name">Ashanti Royal</div></div></div>
         <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Accra Executive', event)">🔗</span></div><div onclick="showModal('Accra Executive')"><img src="2.jpg" class="dress-img"><div class="name">Accra Executive</div></div></div>
@@ -106,9 +118,7 @@
         <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('The Statesman', event)">🔗</span></div><div onclick="showModal('The Statesman')"><img src="9.jpg" class="dress-img"><div class="name">The Statesman</div></div></div>
         <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Masterpiece', event)">🔗</span></div><div onclick="showModal('Masterpiece')"><img src="10.jpg" class="dress-img"><div class="name">Masterpiece</div></div></div>
         <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Elders Tunic', event)">🔗</span></div><div onclick="showModal('Elders Tunic')"><img src="11.jpg" class="dress-img"><div class="name">Elders Tunic</div></div></div>
-    </div>
-    <h2>CASUAL</h2>
-    <div class="gallery">
+        
         <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Osu Street', event)">🔗</span></div><div onclick="showModal('Osu Street')"><img src="casual_3.jpg" class="dress-img"><div class="name">Osu Street</div></div></div>
         <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Accra Urban', event)">🔗</span></div><div onclick="showModal('Accra Urban')"><img src="casual_4.jpg" class="dress-img"><div class="name">Accra Urban</div></div></div>
         <div class="item"><div class="icon-bar"><span class="heart-icon" onclick="toggleLike(this, event)">❤</span><span class="share-icon" onclick="shareItem('Labone Smart', event)">🔗</span></div><div onclick="showModal('Labone Smart')"><img src="casual_5.jpg" class="dress-img"><div class="name">Labone Smart</div></div></div>
@@ -121,54 +131,43 @@
 
 <section id="research" class="page-section">
     <div class="info-card">
-        <h2>HTU Pilot Study</h2>
-        <p style="color:white;">This platform is part of a Consumer Behavior study for the Faculty of Applied Sciences.</p>
-        <p style="color:#888;">Goal: Collect engagement data from 40 students.</p>
-        <a href="https://forms.gle/1rfqvN4AvdY3g7cJ7" class="btn-gold">TAKE RESEARCH SURVEY</a>
+        <h2>Faculty of Applied Sciences Pilot Study</h2>
+        <p style="color:white;">Student Researcher: Oscar V.</p>
+        <p style="color:#888;">Theme: Analyzing digital interaction in Ghana's bespoke fashion industry.</p>
+        <hr style="border:0.5px solid #333; margin:20px 0;">
+        <a href="https://forms.gle/8YvHCHBCXFCtrKkx8" class="btn-gold">TAKE RESEARCH SURVEY</a>
     </div>
 </section>
 
 <section id="contact" class="page-section">
-    <h2 style="letter-spacing: 5px;">GET IN TOUCH</h2>
-    <p style="color: #888; margin-bottom: 30px;">Choose your preferred way to reach out to the YBG Team.</p>
-
-    <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
-        
-        <div class="contact-form" style="flex: 1; min-width: 320px;">
-            <h4 style="color: white; margin-top: 0;">Email Inquiry</h4>
-            <form action="https://formspree.io/f/mpqjwdlq" method="POST">
-                <input type="hidden" name="_next" value="https://oscar-v-htu.github.io/ybg-garments/success.html">
-                <div class="form-group"><label>Name</label><input type="text" name="name" required></div>
-                <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
-                <div class="form-group"><label>Message</label><textarea name="message" rows="4" required></textarea></div>
-                <button type="submit" class="btn-gold" style="width:100%;">SEND EMAIL</button>
-            </form>
-        </div>
-
-        <div style="flex: 1; min-width: 320px; background: var(--card); padding: 40px; border-radius: 20px; border: 1px solid #25D366; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <div style="font-size: 4em; margin-bottom: 10px;">💬</div>
-            <h4 style="color: white; margin-top: 0;">Instant Chat</h4>
-            <p style="color: #aaa; font-size: 0.9em; margin-bottom: 25px;">Prefer a faster response? Speak directly with the tailor for measurements and pricing.</p>
-            
-            <a href="https://wa.me/233544869192?text=Hello%20YBG%20Garments,%20I'm%20contacting%20you%20from%20the%20website." 
-               style="background: #25D366; color: white; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 10px; transition: 0.3s;"
-               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-               <span style="font-size: 1.2em;">📱</span> CHAT ON WHATSAPP
-            </a>
-            <p style="margin-top: 15px; font-size: 0.75em; color: #25D366;">Online | Typical response: < 1 hour</p>
-        </div>
-
+    <div class="contact-form">
+        <h3>Direct Inquiry</h3>
+        <form action="https://formspree.io/f/mpqjwdlq" method="POST">
+            <input type="hidden" name="_next" value="https://oscar-v-htu.github.io/ybg-garments/success.html">
+            <div class="form-group"><label>Full Name</label><input type="text" name="name" required></div>
+            <div class="form-group"><label>Email Address</label><input type="email" name="email" required></div>
+            <div class="form-group"><label>Your Request</label><textarea name="message" rows="4" required></textarea></div>
+            <button type="submit" class="btn-gold" style="width:100%;">SEND MESSAGE</button>
+        </form>
     </div>
-    
-    
 
+    <div style="margin-top: 40px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <h3>Common Questions</h3>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How long is delivery? <span>+</span></div><div class="faq-a">Standard tailoring takes 5-7 days. Express is available.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Do you deliver to HTU? <span>+</span></div><div class="faq-a">Yes, we deliver directly to the Ho Technical University campus.</div></div>
+    </div>
 </section>
-<div id="customModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:4000;">
+
+<a href="https://wa.me/233544869192?text=Hello%20YBG%20Garments,%20I'm%20browsing%20your%20site." class="floating-whatsapp" target="_blank">
+    <span style="margin-bottom:5px;">💬</span>
+</a>
+
+<div id="customModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:5000;">
     <div style="background:var(--card); margin:20% auto; padding:30px; border:1px solid var(--gold); border-radius:15px; width:80%; max-width:350px;">
-        <h3 id="modalTitle">Order Style</h3>
+        <h3 id="modalTitle" style="color:white; margin-top:0;">Secure Style</h3>
         <p id="modalText" style="color:#aaa; font-size:0.9em;"></p>
-        <button class="btn-gold" onclick="goToWhatsApp()">WhatsApp Inquiry</button>
-        <p onclick="closeModal()" style="cursor:pointer; color:#666; margin-top:15px;">Close</p>
+        <button class="btn-gold" style="width:100%;" onclick="goToWhatsApp()">ORDER ON WHATSAPP</button>
+        <p onclick="closeModal()" style="cursor:pointer; color:#666; margin-top:15px; font-size:0.8em;">CLOSE</p>
     </div>
 </div>
 
@@ -182,14 +181,18 @@
     function shareItem(n, ev) { 
         ev.stopPropagation(); 
         navigator.clipboard.writeText("Check out " + n + " at YBG: " + window.location.href); 
-        document.getElementById('toast').style.display='block'; 
-        setTimeout(()=> document.getElementById('toast').style.display='none', 2000); 
+        const t = document.getElementById('toast'); t.style.display='block'; setTimeout(()=> t.style.display='none', 2000); 
     }
-    let selected = "";
-    function showModal(n) { selected = n; document.getElementById('modalText').innerText="Inquire about the " + n + "?"; document.getElementById('customModal').style.display="block"; }
+    let sel = "";
+    function showModal(n) { sel = n; document.getElementById('modalText').innerText="Inquire about the " + n + " via WhatsApp?"; document.getElementById('customModal').style.display="block"; }
     function closeModal() { document.getElementById('customModal').style.display="none"; }
-    function goToWhatsApp() { window.open("https://wa.me/233544869192?text=Inquiry about " + selected); closeModal(); }
+    function goToWhatsApp() { window.open("https://wa.me/233544869192?text=I'm interested in the " + sel); closeModal(); }
     function toggleFaq(el) { el.parentElement.classList.toggle('open'); el.querySelector('span').innerText = el.parentElement.classList.contains('open') ? '-' : '+'; }
 </script>
+
+<footer style="margin: 50px 0; color: #444; font-size: 0.7em; letter-spacing: 1px;">
+    &copy; 2026 YBG GARMENTS ACCRA | RESEARCH PILOT STUDY
+</footer>
+
 </body>
 </html>
