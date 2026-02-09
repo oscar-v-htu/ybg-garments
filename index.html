@@ -6,116 +6,134 @@
     <title>YBG App | Luxury Edition</title>
     
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#d4af37">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root { 
             --gold: #d4af37; 
-            --bg-gradient: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            --glass: rgba(255, 255, 255, 0.08);
             --text: #ffffff;
-            --skeleton: #222;
         }
 
         body { 
-            background: var(--bg-gradient); color: var(--text); font-family: 'Montserrat', sans-serif; 
-            margin: 0; padding: 0 0 100px 0; min-height: 100vh;
+            background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; 
+            margin: 0; padding-bottom: 100px; min-height: 100vh; overflow-x: hidden;
         }
 
-        /* --- SKELETON ANIMATION --- */
-        .skeleton {
-            background: var(--skeleton);
-            background: linear-gradient(90deg, #222 25%, #333 50%, #222 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
+        /* --- HEADER & NAVIGATION --- */
+        .app-header { 
+            background: rgba(15, 15, 15, 0.9); backdrop-filter: blur(10px);
+            padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky; top: 0; z-index: 5000; display: flex; justify-content: space-between; align-items: center;
         }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .skeleton-img { width: 100%; height: 220px; border-radius: 25px 25px 0 0; }
-        .skeleton-text { height: 12px; margin: 10px 0; border-radius: 4px; width: 80%; }
-        .skeleton-btn { height: 40px; border-radius: 10px; width: 100%; margin-top: 10px; }
-
-        /* --- UI COMPONENTS --- */
-        .app-header { background: var(--glass); backdrop-filter: blur(15px); padding: 20px; border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; z-index: 2000; display: flex; justify-content: space-between; align-items: center; }
-        .logo-btn { display: flex; align-items: center; border: none; background: transparent; }
-        .logo-btn img { height: 42px; border-radius: 50%; border: 2px solid var(--gold); margin-right: 15px; }
-        .logo-btn span { font-weight: 900; color: var(--gold); font-size: 1.4rem; letter-spacing: 4px; }
-
-        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px; }
-        .product-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 25px; overflow: hidden; display: none; } /* Hidden until loaded */
-        .product-card img { width: 100%; height: 220px; object-fit: cover; }
         
-        .bottom-nav { position: fixed; bottom: 20px; left: 20px; right: 20px; height: 70px; background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 25px; display: flex; justify-content: space-around; align-items: center; z-index: 3000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: #888; cursor: pointer; }
-        .nav-item.active { color: var(--gold); }
-        .nav-icon { width: 24px; height: 24px; fill: currentColor; margin-bottom: 4px; }
+        .logo-btn { display: flex; align-items: center; cursor: pointer; border: none; background: none; z-index: 5100; }
+        .logo-btn img { height: 40px; border-radius: 50%; border: 2px solid var(--gold); margin-right: 12px; }
+        .logo-btn span { font-weight: 900; color: var(--gold); font-size: 1.2rem; letter-spacing: 3px; }
 
-        .page-section { display: none; padding: 25px; }
+        .bottom-nav { 
+            position: fixed; bottom: 15px; left: 15px; right: 15px; height: 70px; 
+            background: rgba(25, 25, 25, 0.95); backdrop-filter: blur(20px);
+            border-radius: 20px; display: flex; justify-content: space-around; align-items: center; z-index: 5000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .nav-item { color: #666; text-align: center; flex: 1; cursor: pointer; transition: 0.3s; }
+        .nav-item.active { color: var(--gold); transform: translateY(-3px); }
+        .nav-item i { font-style: normal; font-size: 1.5rem; display: block; }
+        .nav-item span { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+
+        /* --- PRODUCT GRID --- */
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
+        .product-card { background: var(--glass); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .product-card img { width: 100%; height: 200px; object-fit: cover; cursor: zoom-in; }
+        .card-body { padding: 12px; }
+
+        /* --- UNIQUE FULL-SCREEN VIEWER --- */
+        #lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 9999; display: none;
+            align-items: center; justify-content: center; backdrop-filter: blur(15px);
+        }
+        #lightbox img { max-width: 90%; max-height: 80%; border-radius: 15px; border: 2px solid var(--gold); box-shadow: 0 0 30px var(--gold); }
+        .close-lightbox { position: absolute; top: 30px; right: 30px; font-size: 3rem; color: #fff; cursor: pointer; }
+
+        /* --- BAG & SETTINGS DRAWER --- */
+        .drawer {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
+            background: #0a0a0a; z-index: 8000; transition: 0.4s ease; padding: 30px; box-sizing: border-box;
+        }
+        .drawer.open { right: 0; }
+
+        .page-section { display: none; padding: 20px; }
         .active-section { display: block; }
+
+        .btn-gold { background: var(--gold); color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<svg style="display: none;">
-    <symbol id="icon-home" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></symbol>
-    <symbol id="icon-shop" viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-8-2h4v2h-4V4z"/></symbol>
-    <symbol id="icon-survey" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></symbol>
-    <symbol id="icon-help" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></symbol>
-</svg>
+<div id="lightbox" onclick="closeLightbox()">
+    <span class="close-lightbox">&times;</span>
+    <img id="lightbox-img" src="">
+    <p id="lightbox-caption" style="position: absolute; bottom: 10%; color: var(--gold); font-weight: bold;"></p>
+</div>
 
 <div class="app-header">
-    <div class="logo-btn">
+    <button class="logo-btn" onclick="toggleSettings()">
         <img src="logo.png" alt="YBG">
         <span>YBG</span>
+    </button>
+    <div style="font-size: 1.8rem; color: var(--gold); cursor: pointer;" onclick="toggleBag()">
+        👜 <span id="cart-count" style="font-size: 0.8rem; background: red; color: white; padding: 2px 6px; border-radius: 50%; vertical-align: top;">0</span>
     </div>
 </div>
 
-<section id="shop" class="page-section active-section">
-    <h2 style="font-size: 1.2rem; letter-spacing: 3px; margin-bottom: 20px;">CATALOG</h2>
-    
-    <div class="product-grid" id="skeleton-grid">
-        <div class="skeleton-card">
-            <div class="skeleton skeleton-img"></div>
-            <div style="padding: 20px;">
-                <div class="skeleton skeleton-text"></div>
-                <div class="skeleton skeleton-btn"></div>
-            </div>
-        </div>
-        <div class="skeleton-card">
-            <div class="skeleton skeleton-img"></div>
-            <div style="padding: 20px;">
-                <div class="skeleton skeleton-text"></div>
-                <div class="skeleton skeleton-btn"></div>
-            </div>
-        </div>
-        </div>
-
-    <div class="product-grid" id="full-catalog"></div>
+<section id="home" class="page-section active-section">
+    <div style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('1.jpg'); background-size: cover; height: 250px; border-radius: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid var(--gold);">
+        <h1 style="margin: 0; font-size: 2.2rem; color: var(--gold);">PRESTIGE</h1>
+        <p>Tap images to view full-screen</p>
+    </div>
 </section>
 
+<section id="shop" class="page-section">
+    <h3 style="letter-spacing: 2px; color: var(--gold);">COLLECTION 2026</h3>
+    <div class="product-grid" id="catalog-grid"></div>
+</section>
+
+<section id="help" class="page-section">
+    <div style="background: var(--glass); padding: 30px; border-radius: 20px; border-left: 5px solid var(--gold);">
+        <h3>Help & Support</h3>
+        <p>Having trouble with the app? Send us a direct message.</p>
+        <button class="btn-gold" onclick="window.open('https://wa.me/233544869192')">Chat on WhatsApp</button>
+    </div>
+</section>
+
+<div id="bag-drawer" class="drawer">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="color: var(--gold);">My Bag</h2>
+        <span onclick="toggleBag()" style="font-size: 3rem; color: #666; cursor: pointer;">&times;</span>
+    </div>
+    <div id="bag-list" style="margin-top: 20px;"></div>
+    <button class="btn-gold" style="position: absolute; bottom: 40px; left: 20px; width: calc(100% - 40px);" onclick="checkout()">Checkout on WhatsApp</button>
+</div>
+
+<div id="settings-drawer" class="drawer" style="left: -100%; right: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="color: var(--gold);">Profile</h2>
+        <span onclick="toggleSettings()" style="font-size: 3rem; color: #666; cursor: pointer;">&times;</span>
+    </div>
+    <div style="margin-top: 30px;">
+        <p>User: Research Participant</p>
+        <button class="btn-gold" onclick="location.reload()">Refresh App</button>
+    </div>
+</div>
+
 <nav class="bottom-nav">
-    <div class="nav-item active">
-        <svg class="nav-icon"><use xlink:href="#icon-home"></use></svg>
-        <span>Home</span>
-    </div>
-    <div class="nav-item">
-        <svg class="nav-icon"><use xlink:href="#icon-shop"></use></svg>
-        <span>Shop</span>
-    </div>
-    <div class="nav-item">
-        <svg class="nav-icon"><use xlink:href="#icon-survey"></use></svg>
-        <span>Survey</span>
-    </div>
-    <div class="nav-item">
-        <svg class="nav-icon"><use xlink:href="#icon-help"></use></svg>
-        <span>Help</span>
-    </div>
+    <div class="nav-item active" onclick="navTo('home', this)"><i>🏠</i><span>Home</span></div>
+    <div class="nav-item" onclick="navTo('shop', this)"><i>👕</i><span>Shop</span></div>
+    <div class="nav-item" onclick="navTo('research', this)"><i>📊</i><span>Survey</span></div>
+    <div class="nav-item" onclick="navTo('help', this)"><i>❓</i><span>Help</span></div>
 </nav>
 
 <script>
@@ -123,30 +141,77 @@
         { name: "Ashanti Royal", price: 450, img: "1.jpg" },
         { name: "Accra Executive", price: 380, img: "2.jpg" },
         { name: "Heritage Agbada", price: 500, img: "3.jpg" },
-        { name: "Black Star", price: 420, img: "4.jpg" }
+        { name: "Black Star", price: 420, img: "4.jpg" },
+        { name: "The Nobleman", price: 350, img: "5.jpg" },
+        { name: "Volta Classic", price: 480, img: "6.jpg" },
+        { name: "The Ceremonial", price: 550, img: "7.jpg" },
+        { name: "Gold Coast", price: 390, img: "8.jpg" },
+        { name: "The Statesman", price: 410, img: "9.jpg" },
+        { name: "Masterpiece", price: 600, img: "10.jpg" },
+        { name: "Elders Tunic", price: 320, img: "11.jpg" },
+        { name: "Osu Street", price: 150, img: "casual_3.jpg" },
+        { name: "Accra Urban", price: 175, img: "casual_4.jpg" },
+        { name: "Labone Smart", price: 200, img: "casual_5.jpg" },
+        { name: "Tema Trend", price: 190, img: "casual_6.jpg" },
+        { name: "Friday Wear", price: 220, img: "casual_7.jpg" },
+        { name: "Coastal Breeze", price: 165, img: "casual_8.jpg" },
+        { name: "Urban Tailor", price: 185, img: "casual_9.jpg" }
     ];
 
-    function init() {
-        const grid = document.getElementById('full-catalog');
-        const skeletonGrid = document.getElementById('skeleton-grid');
+    let cart = [];
 
-        // Simulate network delay of 2 seconds
-        setTimeout(() => {
-            items.forEach(p => {
-                grid.innerHTML += `
-                    <div class="product-card" style="display: block;">
-                        <img src="${p.img}" onload="this.parentElement.style.display='block'">
-                        <div style="padding:20px;">
-                            <p style="font-size:0.7rem; color:#888; margin:0; text-transform:uppercase;">${p.name}</p>
-                            <p style="font-weight:900; margin:10px 0; font-size:1.1rem;">GH₵ ${p.price}</p>
-                            <button style="background:var(--gold); border:none; width:100%; padding:15px; border-radius:15px; font-weight:900;">ADD TO BAG</button>
-                        </div>
-                    </div>`;
-            });
-            // Hide skeletons after products are ready
-            skeletonGrid.style.display = 'none';
-        }, 2000);
+    function init() {
+        const grid = document.getElementById('catalog-grid');
+        items.forEach(p => {
+            grid.innerHTML += `
+                <div class="product-card">
+                    <img src="${p.img}" onclick="openLightbox('${p.img}', '${p.name}')" onerror="this.src='https://via.placeholder.com/200x250/111/d4af37?text=YBG'">
+                    <div class="card-body">
+                        <p style="font-size:0.7rem; color:#888; margin:0;">${p.name}</p>
+                        <p style="font-weight:bold; margin:5px 0;">GH₵ ${p.price}</p>
+                        <button class="btn-gold" style="padding: 8px; font-size: 0.7rem;" onclick="addToBag('${p.name}')">SAVE</button>
+                    </div>
+                </div>`;
+        });
     }
+
+    // UNIQUE VIEWER LOGIC
+    function openLightbox(img, name) {
+        document.getElementById('lightbox-img').src = img;
+        document.getElementById('lightbox-caption').innerText = name;
+        document.getElementById('lightbox').style.display = 'flex';
+    }
+    function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+
+    // DRAWER LOGIC
+    function toggleBag() { document.getElementById('bag-drawer').classList.toggle('open'); }
+    function toggleSettings() { 
+        const drawer = document.getElementById('settings-drawer');
+        drawer.style.left = (drawer.style.left === '0px') ? '-100%' : '0px';
+    }
+
+    // NAVIGATION
+    function navTo(id, el) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+        document.getElementById(id).classList.add('active-section');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function addToBag(name) {
+        cart.push(name);
+        document.getElementById('cart-count').innerText = cart.length;
+        updateBagUI();
+        alert(name + " added to bag!");
+    }
+
+    function updateBagUI() {
+        const list = document.getElementById('bag-list');
+        list.innerHTML = cart.map(i => `<div style="padding:10px; border-bottom:1px solid #222;">${i}</div>`).join('');
+    }
+
+    function checkout() { window.open(`https://wa.me/233544869192?text=Inquiry: ${cart.join(", ")}`); }
 
     init();
 </script>
