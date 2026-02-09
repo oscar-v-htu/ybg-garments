@@ -3,38 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YBG Garments | Premium Bespoke</title>
+    <title>YBG Garments | The Master Tailor</title>
     <style>
-        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #1a1a1a; --white: #ffffff; }
-        body { background: var(--bg); color: var(--gold); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; text-align: center; transition: 0.5s; }
+        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #1a1a1a; }
+        body { background: var(--bg); color: var(--gold); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; text-align: center; }
         
-        /* Navigation */
-        nav { background: rgba(0,0,0,0.95); padding: 20px; position: sticky; top: 0; z-index: 3000; border-bottom: 1px solid #333; display: flex; justify-content: center; gap: 25px; backdrop-filter: blur(10px); }
-        nav a { color: white; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
-        nav a:hover { color: var(--gold); }
-
+        nav { background: rgba(0,0,0,0.95); padding: 20px; position: sticky; top: 0; z-index: 3000; border-bottom: 1px solid #333; display: flex; justify-content: center; gap: 25px; }
+        nav a { color: white; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; cursor: pointer; }
+        
         .page-section { display: none; padding: 60px 20px; animation: fadeIn 0.6s ease; max-width: 1100px; margin: 0 auto; }
         .active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Testimonials Styling */
-        .testimonial-container { display: flex; overflow-x: auto; gap: 20px; padding: 20px; scroll-snap-type: x mandatory; margin-top: 30px; }
-        .testimonial-card { 
-            min-width: 280px; background: var(--card); padding: 25px; border-radius: 15px; 
-            border: 1px solid #333; scroll-snap-align: center; text-align: left; position: relative;
+        /* Meet the Tailor Section */
+        .tailor-profile { 
+            display: flex; flex-wrap: wrap; align-items: center; gap: 40px; 
+            background: var(--card); padding: 40px; border-radius: 20px; margin-top: 40px; 
+            border: 1px solid #333; text-align: left;
         }
-        .testimonial-card::before { content: "“"; font-size: 4em; color: var(--gold); position: absolute; top: -10px; left: 10px; opacity: 0.3; }
-        .client-name { color: white; font-weight: bold; margin-top: 15px; display: block; font-size: 0.9em; }
-        .stars { color: var(--gold); margin-bottom: 10px; }
+        .tailor-img { 
+            width: 250px; height: 250px; border-radius: 20px; object-fit: cover; 
+            border: 2px solid var(--gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); 
+        }
+        .tailor-info { flex: 1; min-width: 300px; }
+        .tailor-info h2 { color: white; margin-top: 0; letter-spacing: 2px; }
+        .tailor-info p { color: #aaa; line-height: 1.8; font-size: 0.95em; }
 
-        /* Existing Styles for Shop & Modal */
-        .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-        .item { width: 170px; background: var(--card); padding: 12px; border-radius: 12px; border: 1px solid #333; cursor: pointer; }
-        img.dress-img { width: 100%; height: 230px; border-radius: 8px; object-fit: cover; }
-        .btn-gold { background: var(--gold); color: black; padding: 15px 35px; border-radius: 50px; font-weight: bold; text-decoration: none; display: inline-block; border: none; cursor: pointer; margin-top: 20px; }
-        
-        #customModal { display: none; position: fixed; z-index: 4000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.9); }
-        .modal-content { background: var(--card); margin: 20% auto; padding: 30px; border: 2px solid var(--gold); width: 80%; max-width: 350px; border-radius: 20px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .btn-gold { background: var(--gold); color: black; padding: 12px 30px; border-radius: 50px; font-weight: bold; text-decoration: none; cursor: pointer; border: none; }
     </style>
 </head>
 <body>
@@ -46,81 +41,36 @@
 </nav>
 
 <section id="home" class="page-section active">
-    <img src="logo.png" onerror="this.src='https://via.placeholder.com/120/111/d4af37?text=YBG'" style="width:120px; border-radius:50%; border:2px solid var(--gold); padding:5px; box-shadow: 0 0 20px rgba(212,175,55,0.5);">
-    <h1 style="letter-spacing: 15px; margin-top: 20px;">YBG</h1>
-    <p style="letter-spacing: 5px; color: white;">GARMENTS</p>
+    <img src="logo.png" style="width:100px; border-radius:50%; border:2px solid var(--gold); padding:5px;">
+    <h1 style="letter-spacing: 15px;">YBG</h1>
     
-    <div style="background: var(--card); padding: 40px; border-radius: 20px; margin-top: 40px; border-left: 4px solid var(--gold);">
-        <h2 style="text-align: left; margin-top: 0;">Tailored for the Modern African</h2>
-        <p style="text-align: left; color: #aaa; line-height: 1.8;">Experience the fusion of high-quality Ghanaian textiles and contemporary bespoke tailoring. Every piece is a masterpiece designed for comfort and prestige.</p>
-        <button class="btn-gold" onclick="showPage('shop')">Explore Collection</button>
+    <div class="tailor-profile">
+        <img src="tailor.jpg" onerror="this.src='https://via.placeholder.com/250/111/d4af37?text=The+Tailor'" class="tailor-img">
+        <div class="tailor-info">
+            <p style="color: var(--gold); font-weight: bold; margin-bottom: 5px; text-transform: uppercase; font-size: 0.8em;">Master of the Craft</p>
+            <h2>Meet Your Tailor</h2>
+            <p>At YBG Garments, we believe that clothing is more than just fabric—it’s an expression of identity. Led by our master tailor, we combine traditional Ghanaian techniques with modern precision to create bespoke pieces that speak for themselves.</p>
+            <p style="font-style: italic; color: #eee;">"My goal is to make every client feel like royalty in their own skin."</p>
+            <button class="btn-gold" onclick="window.open('https://wa.me/233544869192')">Direct Consultation</button>
+        </div>
     </div>
 
-    <h3 style="margin-top: 60px; letter-spacing: 3px;">WHAT OUR CLIENTS SAY</h3>
-    <div class="testimonial-container">
-        <div class="testimonial-card">
-            <div class="stars">★★★★★</div>
-            <p style="color: #eee; font-style: italic;">"The fit is perfect. I wore my Kaftan to a wedding and everyone was asking where I got it. Highly recommended!"</p>
-            <span class="client-name">- Kwesi Appiah, Accra</span>
-        </div>
-        <div class="testimonial-card">
-            <div class="stars">★★★★★</div>
-            <p style="color: #eee; font-style: italic;">"Fast delivery and the fabric quality is top-notch. YBG is now my go-to for all my corporate traditional wear."</p>
-            <span class="client-name">- Dr. Mensah, HTU Faculty</span>
-        </div>
-        <div class="testimonial-card">
-            <div class="stars">★★★★★</div>
-            <p style="color: #eee; font-style: italic;">"Exceptional attention to detail. The stitching is clean and professional. Best bespoke service in Ghana."</p>
-            <span class="client-name">- Sarah Owusu, Kumasi</span>
-        </div>
-    </div>
-</section>
+    </section>
 
 <section id="shop" class="page-section">
-    <h2>The 2026 Collection</h2>
-    <div class="gallery">
-        <div class="item" onclick="showModal('Ashanti Royal')"><img src="1.jpg" class="dress-img"><div class="name">Ashanti Royal</div></div>
-        <div class="item" onclick="showModal('Accra Executive')"><img src="2.jpg" class="dress-img"><div class="name">Accra Executive</div></div>
-        <div class="item" onclick="showModal('Heritage Agbada')"><img src="3.jpg" class="dress-img"><div class="name">Heritage Agbada</div></div>
-        </div>
+    <h2>Catalog</h2>
 </section>
 
 <section id="research" class="page-section">
-    <div style="background: var(--card); padding: 40px; border-radius: 20px; border: 1px solid var(--gold);">
-        <h2>Applied Sciences Pilot Study</h2>
-        <p style="color: #aaa;">This website is part of a research study on digital consumer interaction at <strong>Ho Technical University</strong>.</p>
-        <hr style="border: 0.5px solid #333; margin: 30px 0;">
-        <p style="color: white;">Please provide your feedback to help us complete our data collection from 40 students.</p>
-        <a href="YOUR_GOOGLE_FORM_LINK" class="btn-gold">START RESEARCH SURVEY</a>
-    </div>
+    <h2>Research Portal</h2>
+    <a href="YOUR_GOOGLE_FORM_LINK" class="btn-gold">Start Survey</a>
 </section>
 
-<div id="customModal">
-    <div class="modal-content">
-        <h3 id="modalTitle" style="color:white;">Direct Order</h3>
-        <p id="modalText" style="color:#eee; font-size:0.9em;"></p>
-        <button class="btn-gold" onclick="goToWhatsApp()">Chat on WhatsApp</button>
-        <p onclick="closeModal()" style="cursor:pointer; color:#666; margin-top:15px;">Close</p>
-    </div>
-</div>
-
 <script>
-    function showPage(pageId) {
+    function showPage(p) {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
+        document.getElementById(p).classList.add('active');
         window.scrollTo(0, 0);
-    }
-
-    let selectedDress = "";
-    function showModal(name) {
-        selectedDress = name;
-        document.getElementById('modalText').innerText = "Would you like to message the tailor about the " + name + "?";
-        document.getElementById('customModal').style.display = "block";
-    }
-    function closeModal() { document.getElementById('customModal').style.display = "none"; }
-    function goToWhatsApp() {
-        window.open("https://wa.me/233544869192?text=I'm interested in: " + selectedDress);
-        closeModal();
     }
 </script>
 
