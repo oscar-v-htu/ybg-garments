@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YBG Garments | The Master Tailor</title>
+    <title>YBG Garments | Premium Process</title>
     <style>
         :root { --gold: #d4af37; --bg: #0a0a0a; --card: #1a1a1a; }
         body { background: var(--bg); color: var(--gold); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; text-align: center; }
@@ -14,19 +14,20 @@
         .page-section { display: none; padding: 60px 20px; animation: fadeIn 0.6s ease; max-width: 1100px; margin: 0 auto; }
         .active { display: block; }
 
-        /* Meet the Tailor Section */
-        .tailor-profile { 
-            display: flex; flex-wrap: wrap; align-items: center; gap: 40px; 
-            background: var(--card); padding: 40px; border-radius: 20px; margin-top: 40px; 
-            border: 1px solid #333; text-align: left;
+        /* Service Process Styling */
+        .process-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 50px; }
+        .process-step { 
+            flex: 1; min-width: 250px; background: var(--card); padding: 30px; border-radius: 15px; 
+            border: 1px solid #333; transition: 0.3s;
         }
-        .tailor-img { 
-            width: 250px; height: 250px; border-radius: 20px; object-fit: cover; 
-            border: 2px solid var(--gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); 
+        .process-step:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .step-number { 
+            font-size: 2.5em; font-weight: 900; color: rgba(212, 175, 55, 0.2); 
+            position: absolute; top: 10px; right: 20px; 
         }
-        .tailor-info { flex: 1; min-width: 300px; }
-        .tailor-info h2 { color: white; margin-top: 0; letter-spacing: 2px; }
-        .tailor-info p { color: #aaa; line-height: 1.8; font-size: 0.95em; }
+        .process-step { position: relative; overflow: hidden; }
+        .process-step h3 { color: white; margin-bottom: 10px; letter-spacing: 1px; }
+        .process-step p { color: #888; font-size: 0.9em; line-height: 1.6; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .btn-gold { background: var(--gold); color: black; padding: 12px 30px; border-radius: 50px; font-weight: bold; text-decoration: none; cursor: pointer; border: none; }
@@ -41,25 +42,40 @@
 </nav>
 
 <section id="home" class="page-section active">
-    <img src="logo.png" style="width:100px; border-radius:50%; border:2px solid var(--gold); padding:5px;">
-    <h1 style="letter-spacing: 15px;">YBG</h1>
-    
-    <div class="tailor-profile">
-        <img src="tailor.jpg" onerror="this.src='https://via.placeholder.com/250/111/d4af37?text=The+Tailor'" class="tailor-img">
-        <div class="tailor-info">
-            <p style="color: var(--gold); font-weight: bold; margin-bottom: 5px; text-transform: uppercase; font-size: 0.8em;">Master of the Craft</p>
-            <h2>Meet Your Tailor</h2>
-            <p>At YBG Garments, we believe that clothing is more than just fabric—it’s an expression of identity. Led by our master tailor, we combine traditional Ghanaian techniques with modern precision to create bespoke pieces that speak for themselves.</p>
-            <p style="font-style: italic; color: #eee;">"My goal is to make every client feel like royalty in their own skin."</p>
-            <button class="btn-gold" onclick="window.open('https://wa.me/233544869192')">Direct Consultation</button>
+    <h2 style="margin-top: 80px; letter-spacing: 5px;">HOW IT WORKS</h2>
+    <p style="color: #666; font-size: 0.9em;">From Selection to Perfection in 3 Simple Steps</p>
+
+    <div class="process-container">
+        <div class="process-step">
+            <div class="step-number">01</div>
+            <h3 style="font-size: 3em; margin: 0;">👔</h3>
+            <h3>Select Style</h3>
+            <p>Browse our digital catalog and pick the design that speaks to your personality.</p>
+        </div>
+
+        <div class="process-step">
+            <div class="step-number">02</div>
+            <h3 style="font-size: 3em; margin: 0;">📏</h3>
+            <h3>Send Measures</h3>
+            <p>Connect via WhatsApp to provide your measurements or schedule a physical fitting.</p>
+        </div>
+
+        <div class="process-step">
+            <div class="step-number">03</div>
+            <h3 style="font-size: 3em; margin: 0;">🚚</h3>
+            <h3>Fast Delivery</h3>
+            <p>Our artisans craft your garment, and we deliver it to your doorstep at HTU or beyond.</p>
         </div>
     </div>
 
-    </section>
+    
+    
+    <button class="btn-gold" style="margin-top: 40px;" onclick="showPage('shop')">Start Your Order</button>
+</section>
 
 <section id="shop" class="page-section">
-    <h2>Catalog</h2>
-</section>
+    <h2>2026 Collection</h2>
+    </section>
 
 <section id="research" class="page-section">
     <h2>Research Portal</h2>
