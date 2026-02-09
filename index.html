@@ -2,14 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body { background: #0a0a0a; color: #d4af37; text-align: center; font-family: serif; padding: 20px; line-height: 1.6; }
 .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: 0 auto; }
-.item { width: 220px; margin-bottom: 40px; background: #1a1a1a; padding: 15px; border-radius: 10px; border: 1px solid #333; cursor: pointer; transition: transform 0.3s; }
-.item:hover { transform: scale(1.05); border-color: #d4af37; }
+
+/* The Glow and Zoom Effect */
+.item { 
+    width: 220px; margin-bottom: 40px; background: #1a1a1a; padding: 15px; border-radius: 10px; 
+    border: 1px solid #333; cursor: pointer; transition: all 0.4s ease; 
+}
+.item:hover { 
+    transform: translateY(-10px) scale(1.03); 
+    border-color: #d4af37; 
+    box-shadow: 0px 0px 20px rgba(212, 175, 55, 0.4); 
+}
+
 img { width: 100%; border: 1px solid #d4af37; border-radius: 5px; height: 280px; object-fit: cover; }
 .name { color: #ffffff; font-weight: bold; margin-top: 10px; font-size: 0.9em; text-transform: uppercase; min-height: 40px; display: flex; align-items: center; justify-content: center; }
 .price { font-family: sans-serif; margin-top: 5px; color: #d4af37; font-size: 1.1em; }
+
 .btn { background: #25D366; color: white !important; padding: 15px 35px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; margin: 20px 0; font-family: sans-serif; border: 1px solid #fff; }
 .survey-btn { background: #333; color: #d4af37; border: 1px solid #d4af37; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-bottom: 40px; font-size: 0.8em; }
 h2 { border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 60px; text-transform: uppercase; letter-spacing: 3px; }
@@ -20,8 +32,7 @@ h2 { border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 60px; text
 <h1>YBG GARMENTS</h1>
 <p style="letter-spacing:5px;">PREMIUM BESPOKE TAILORING | ACCRA</p>
 <hr style="width:20%; border: 0.5px solid #d4af37; margin: 20px auto;">
-
-<p style="font-size: 0.9em; color: #eee;">Click any garment below to start an order.</p>
+<p style="font-size: 0.8em; color: #aaa;">Click any style to inquire on WhatsApp</p>
 
 <h2>TRADITIONAL COLLECTION</h2>
 <div class="gallery">
@@ -51,19 +62,19 @@ h2 { border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 60px; text
 
 <a href="https://wa.me/233544869192" target="_blank" class="btn">CHAT ON WHATSAPP</a>
 <br>
-<a href="https://forms.gle/YOUR_LINK" target="_blank" class="survey-btn">STUDENT RESEARCH SURVEY</a>
+<a href="https://forms.google.com" target="_blank" class="survey-btn">STUDENT RESEARCH SURVEY</a>
 
 <script>
 function orderDress(dressName) {
     let response = confirm("Would you like to order " + dressName + "?");
     if (response) {
-        let message = "Hello YBG Garments, I really love the style: " + dressName + ". Is this still available?";
+        let message = "Hello YBG Garments, I really love this style: " + dressName + ". Is this still available?";
         let encodedMessage = encodeURIComponent(message);
         window.open("https://wa.me/233544869192?text=" + encodedMessage, "_blank");
     }
 }
 </script>
 
-<p style="color:#444; font-size: 0.8em; margin-top: 40px;">&copy; 2026 YBG Garments Accra | Developed for HTU Faculty of Applied Sciences</p>
+<p style="color:#444; font-size: 0.8em; margin-top: 40px;">&copy; 2026 YBG Garments Accra | Faculty of Applied Sciences Research Project</p>
 </body>
 </html>
