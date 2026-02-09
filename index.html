@@ -4,25 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>YBG App | Premium Bespoke</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d4af37">
+    <link rel="apple-touch-icon" href="logo.png">
+
     <style>
-        /* CSS Variables for Theme Switching */
         :root { 
             --gold: #d4af37; --bg: #000; --card: #111; --text: #fff; 
-            --red: #ff4d4d; --nav-bg: #111; --input-bg: #000; --border: #222;
+            --red: #ff4d4d; --nav-bg: #111; --border: #222;
         }
-
         body.light-mode {
             --bg: #f4f4f4; --card: #ffffff; --text: #222; 
-            --nav-bg: #ffffff; --input-bg: #eeeeee; --border: #ddd;
+            --nav-bg: #ffffff; --border: #ddd;
         }
-        
         body { 
-            background: var(--bg); color: var(--text); font-family: 'Segoe UI', Roboto, sans-serif; 
+            background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; 
             margin: 0; padding: 0 0 80px 0; overflow-x: hidden; transition: 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
         }
-
-        /* Jumia-Style Header */
         .app-header {
             background: var(--nav-bg); padding: 15px 20px; border-bottom: 1px solid var(--border);
             position: sticky; top: 0; z-index: 2000; display: flex; align-items: center; justify-content: space-between;
@@ -30,75 +29,38 @@
         .logo-area { display: flex; align-items: center; }
         .logo-area img { height: 35px; border-radius: 50%; border: 1px solid var(--gold); margin-right: 10px; }
         .logo-area span { font-weight: 900; letter-spacing: 3px; color: var(--gold); font-size: 1.1rem; }
-        
-        .header-actions { display: flex; gap: 20px; align-items: center; }
-        .theme-toggle { font-size: 1.2rem; cursor: pointer; }
         .cart-icon { position: relative; font-size: 1.5rem; cursor: pointer; color: var(--gold); }
         .cart-count { 
             position: absolute; top: -5px; right: -8px; background: var(--red); color: white; 
             font-size: 0.7rem; padding: 2px 6px; border-radius: 50%; font-weight: bold;
         }
-
-        /* App Sections */
         .page-section { display: none; padding: 20px; animation: slideIn 0.3s ease-out; }
         .active-section { display: block; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-
-        /* Product Grid */
         .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .product-card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .product-card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; position: relative; }
         .product-card img { width: 100%; height: 180px; object-fit: cover; }
-        .product-info { padding: 10px; text-align: left; }
-        .product-name { font-size: 0.7rem; color: #888; margin: 0; text-transform: uppercase; }
-        .price { color: var(--text); font-weight: bold; margin: 5px 0; font-size: 0.9rem; }
-        
-        .add-btn { 
-            background: var(--gold); color: #000; border: none; width: 100%; 
-            padding: 10px; border-radius: 5px; font-weight: bold; font-size: 0.7rem; cursor: pointer;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; height: 70px;
-            background: var(--nav-bg); border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center; z-index: 3000;
-        }
+        .add-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.75rem; cursor: pointer; margin-top: 10px; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: var(--nav-bg); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 3000; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: #666; font-size: 0.65rem; cursor: pointer; text-decoration: none; }
         .nav-item.active { color: var(--gold); }
-        .nav-item i { font-size: 1.5rem; margin-bottom: 3px; }
-
-        /* Floating Components */
-        .floating-wa { 
-            position: fixed; bottom: 85px; right: 20px; background: #25D366; color: white; 
-            width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; 
-            justify-content: center; font-size: 25px; z-index: 2500; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-        .floating-wa::after { content: ''; position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #25D366; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
-
-        #cart-view {
-            position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
-            background: var(--bg); z-index: 4000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 20px; box-sizing: border-box;
-        }
+        .floating-wa { position: fixed; bottom: 85px; right: 20px; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; z-index: 2500; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+        #cart-view { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; background: var(--bg); z-index: 4000; transition: 0.4s; padding: 20px; box-sizing: border-box; }
         #cart-view.open { right: 0; }
-
         #toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 10px 25px; border-radius: 50px; display: none; z-index: 5000; font-weight: bold; }
-
-        .qr-section { margin-top: 30px; background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid var(--gold); }
-        .qr-section img { width: 150px; height: 150px; border: 5px solid white; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<div id="toast">Added to Favorites! 👜</div>
+<div id="toast">Saved to Favorites! 👜</div>
 
 <div class="app-header">
     <div class="logo-area">
         <img src="logo.png" onerror="this.src='https://via.placeholder.com/40/111/d4af37?text=Y'">
         <span>YBG</span>
     </div>
-    <div class="header-actions">
-        <div class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌓</div>
+    <div style="display:flex; gap:15px; align-items:center;">
+        <div onclick="toggleTheme()" style="cursor:pointer; font-size:1.2rem;" id="theme-btn">🌓</div>
         <div class="cart-icon" onclick="toggleCart()">
             👜 <span class="cart-count" id="count-display">0</span>
         </div>
@@ -107,63 +69,65 @@
 
 <section id="home" class="page-section active-section">
     <div style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('1.jpg'); background-size: cover; padding: 40px 20px; border-radius: 15px; border: 1px solid var(--gold); text-align: left;">
-        <h1 style="margin: 0; font-size: 1.8rem; color: var(--gold);">YBG GARMENTS</h1>
-        <p style="font-size: 0.8rem; color: #fff; margin-top: 5px;">Premium Bespoke Tailoring | Accra</p>
-        <button onclick="navTo('shop', document.querySelectorAll('.nav-item')[1])" class="add-btn" style="width: auto; padding: 10px 25px; margin-top: 15px;">EXPLORE CATALOG</button>
+        <h1 style="margin: 0; font-size: 1.8rem; color: var(--gold);">YBG APP</h1>
+        <p style="font-size: 0.8rem; color: #fff;">Bespoke Luxury for HTU.</p>
+        <button onclick="navTo('shop', document.querySelectorAll('.nav-item')[1])" class="add-btn" style="width: auto; padding: 10px 20px;">BROWSE COLLECTION</button>
     </div>
-
-    <div class="qr-section">
-        <p style="font-size: 0.8rem; margin-bottom: 15px;">Share the YBG Experience</p>
-        <img src="qr-code.png" alt="Scan to Open App">
-        <p style="font-size: 0.7rem; color: #888; margin-top: 10px;">Scan to open on another device</p>
+    
+    <div style="margin-top:20px; background:var(--card); padding:20px; border-radius:12px; border:1px solid var(--gold); text-align:center;">
+        <p style="font-size:0.8rem; margin:0 0 10px 0;">Scan to Install App</p>
+        <img src="qr-code.png" style="width:120px; border:4px solid white; border-radius:8px;">
     </div>
 </section>
 
 <section id="shop" class="page-section">
-    <h3 style="text-align: left; margin: 0;">2026 Collection</h3>
+    <h3 style="text-align: left; margin: 0;">2026 Catalog</h3>
     <div class="product-grid" id="full-catalog"></div>
 </section>
 
 <section id="research" class="page-section">
-    <div style="background: var(--card); padding: 30px; border-radius: 15px; border-left: 5px solid var(--gold); text-align: left;">
-        <h2 style="margin:0;">Pilot Study</h2>
-        <p style="font-size: 0.85rem; color: #888;">Faculty of Applied Sciences</p>
-        <p>Help us analyze digital bespoke fashion trends by taking our 2-minute survey.</p>
-        <a href="https://forms.gle/K2YVV2XMST32cZHP6" class="add-btn" style="display:block; text-align:center; padding:15px; text-decoration:none; font-size:1rem;">START SURVEY</a>
+    <div style="background: var(--card); padding: 25px; border-radius: 15px; border-left: 5px solid var(--gold);">
+        <h3>Research Study</h3>
+        <p style="font-size:0.8rem;">Analyzing Consumer Behavior in Mobile Bespoke Fashion.</p>
+        <a href="https://forms.gle/5Ghkgky4mPBprTLY8" class="add-btn" style="display:block; text-align:center; text-decoration:none;">START SURVEY</a>
     </div>
 </section>
 
 <section id="contact" class="page-section">
-    <div style="background: var(--card); padding: 25px; border-radius: 15px; text-align: left;">
-        <h3 style="margin-top:0;">Send Inquiry</h3>
-        <form action="https://formspree.io/f/mpqjwdlq" method="POST" id="contact-form">
-            <input type="hidden" name="_next" value="https://oscar-v-htu.github.io/ybg-garments/success.html">
-            <input type="text" name="name" placeholder="Name" style="width:100%; padding:12px; margin-bottom:10px; background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:8px; box-sizing:border-box;" required>
-            <textarea name="message" rows="4" placeholder="Your requirements..." style="width:100%; padding:12px; margin-bottom:10px; background:var(--input-bg); border:1px solid var(--border); color:var(--text); border-radius:8px; box-sizing:border-box;" required></textarea>
-            <button type="submit" class="add-btn" style="font-size:1rem;">SEND MESSAGE</button>
-        </form>
-    </div>
+    <form action="https://formspree.io/f/mpqjwdlq" method="POST" style="text-align:left;">
+        <input type="hidden" name="_next" value="https://oscar-v-htu.github.io/ybg-garments/success.html">
+        <label style="font-size:0.8rem;">Name</label>
+        <input type="text" name="name" style="width:100%; padding:12px; margin:5px 0 15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:8px;" required>
+        <label style="font-size:0.8rem;">Message</label>
+        <textarea name="message" rows="4" style="width:100%; padding:12px; margin:5px 0 15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:8px;" required></textarea>
+        <button type="submit" class="add-btn">SEND INQUIRY</button>
+    </form>
 </section>
 
 <div id="cart-view">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="color:var(--gold);">Saved Items</h2>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2>My Bag</h2>
         <span onclick="toggleCart()" style="font-size: 2.5rem; color: var(--gold); cursor:pointer;">×</span>
     </div>
     <div id="cart-list" style="margin-top: 20px; text-align: left;"></div>
-    <button class="add-btn" style="position:absolute; bottom:40px; left:20px; right:20px; padding:18px; font-size:1rem;" onclick="checkoutWhatsApp()">WHATSAPP INQUIRY</button>
+    <button class="add-btn" style="position:absolute; bottom:40px; left:20px; right:20px; padding:18px;" onclick="checkoutWhatsApp()">ORDER ON WHATSAPP</button>
 </div>
 
 <div class="bottom-nav">
     <div class="nav-item active" onclick="navTo('home', this)"><i>🏠</i><span>Home</span></div>
-    <div class="nav-item" onclick="navTo('shop', this)"><i>👕</i><span>Catalog</span></div>
+    <div class="nav-item" onclick="navTo('shop', this)"><i>👕</i><span>Shop</span></div>
     <div class="nav-item" onclick="navTo('research', this)"><i>📊</i><span>Survey</span></div>
-    <div class="nav-item" onclick="navTo('contact', this)"><i>✉️</i><span>Support</span></div>
+    <div class="nav-item" onclick="navTo('contact', this)"><i>✉️</i><span>Help</span></div>
 </div>
 
-<a href="https://wa.me/233544869192" class="floating-wa" target="_blank">💬</a>
+<a href="https://wa.me/233544869192" class="floating-wa">💬</a>
 
 <script>
+    // Register PWA Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+
     const items = [
         { name: "Ashanti Royal", price: 450, img: "1.jpg" },
         { name: "Accra Executive", price: 380, img: "2.jpg" },
@@ -185,26 +149,21 @@
         { name: "Urban Tailor", price: 185, img: "casual_9.jpg" }
     ];
 
-    // Local Storage State
     let cart = JSON.parse(localStorage.getItem('ybg_cart')) || [];
-    let isLightMode = localStorage.getItem('ybg_theme') === 'light';
+    let isLight = localStorage.getItem('ybg_theme') === 'light';
 
     function initApp() {
-        if (isLightMode) {
-            document.body.classList.add('light-mode');
-            document.getElementById('theme-btn').innerText = '🌙';
-        }
+        if(isLight) { document.body.classList.add('light-mode'); document.getElementById('theme-btn').innerText = '🌙'; }
         document.getElementById('count-display').innerText = cart.length;
         updateCartUI();
-
         const grid = document.getElementById('full-catalog');
         items.forEach(p => {
             grid.innerHTML += `
                 <div class="product-card">
-                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200x250/111/d4af37?text=YBG'">
-                    <div class="product-info">
-                        <p class="product-name">${p.name}</p>
-                        <p class="price">GH₵ ${p.price}</p>
+                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200x200/111/d4af37?text=YBG'">
+                    <div style="padding:10px;">
+                        <p style="font-size:0.7rem; color:#888; margin:0;">${p.name}</p>
+                        <p style="font-weight:bold; margin:5px 0;">GH₵ ${p.price}</p>
                         <button class="add-btn" onclick="addToCart('${p.name}')">SAVE</button>
                     </div>
                 </div>`;
@@ -213,52 +172,31 @@
 
     function toggleTheme() {
         document.body.classList.toggle('light-mode');
-        const light = document.body.classList.contains('light-mode');
-        localStorage.setItem('ybg_theme', light ? 'light' : 'dark');
-        document.getElementById('theme-btn').innerText = light ? '🌙' : '☀️';
+        const lightOn = document.body.classList.contains('light-mode');
+        localStorage.setItem('ybg_theme', lightOn ? 'light' : 'dark');
+        document.getElementById('theme-btn').innerText = lightOn ? '🌙' : '☀️';
     }
 
-    function addToCart(name) {
-        cart.push(name);
+    function addToCart(n) {
+        cart.push(n);
         localStorage.setItem('ybg_cart', JSON.stringify(cart));
         document.getElementById('count-display').innerText = cart.length;
         updateCartUI();
-        const t = document.getElementById('toast');
-        t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 1500);
+        const t = document.getElementById('toast'); t.style.display='block'; setTimeout(()=> t.style.display='none', 1500);
     }
 
     function updateCartUI() {
         const list = document.getElementById('cart-list');
-        if(cart.length === 0) {
-            list.innerHTML = "<p style='color:#888;'>No items saved.</p>";
-        } else {
-            list.innerHTML = cart.map((i, idx) => `
-                <div style="padding:12px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between;">
-                    <span>${i}</span><span onclick="removeItem(${idx})" style="color:var(--red); cursor:pointer;">×</span>
-                </div>`).join('');
-        }
+        list.innerHTML = cart.length === 0 ? "<p>Empty</p>" : cart.map((item, idx) => `
+            <div style="padding:15px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between;">
+                <span>${item}</span><span onclick="remove(${idx})" style="color:var(--red);">×</span>
+            </div>`).join('');
     }
 
-    function removeItem(idx) {
-        cart.splice(idx, 1);
-        localStorage.setItem('ybg_cart', JSON.stringify(cart));
-        document.getElementById('count-display').innerText = cart.length;
-        updateCartUI();
-    }
-
-    function navTo(id, el) {
-        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
-        document.getElementById(id).classList.add('active-section');
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        el.classList.add('active');
-        window.scrollTo(0,0);
-    }
-
+    function remove(idx) { cart.splice(idx, 1); localStorage.setItem('ybg_cart', JSON.stringify(cart)); document.getElementById('count-display').innerText = cart.length; updateCartUI(); }
+    function navTo(id, el) { document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section')); document.getElementById(id).classList.add('active-section'); document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); el.classList.add('active'); window.scrollTo(0,0); }
     function toggleCart() { document.getElementById('cart-view').classList.toggle('open'); }
-    function checkoutWhatsApp() { 
-        if(cart.length === 0) return alert("Save some styles first!");
-        window.open(`https://wa.me/233544869192?text=Hello YBG! I am interested in: ${cart.join(", ")}`); 
-    }
+    function checkoutWhatsApp() { window.open(`https://wa.me/233544869192?text=Inquiry: ${cart.join(", ")}`); }
 
     initApp();
 </script>
