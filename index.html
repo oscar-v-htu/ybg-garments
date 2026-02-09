@@ -7,7 +7,6 @@
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#d4af37">
-    <link rel="apple-touch-icon" href="logo.png">
 
     <style>
         :root { 
@@ -20,113 +19,124 @@
         }
         body { 
             background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; 
-            margin: 0; padding: 0 0 80px 0; overflow-x: hidden; transition: 0.3s ease;
+            margin: 0; padding: 0 0 90px 0; /* Increased bottom padding */
+            overflow-x: hidden; transition: 0.3s ease;
         }
+
+        /* Fixed Navigation Sizes */
+        .bottom-nav { 
+            position: fixed; bottom: 0; left: 0; right: 0; height: 75px; /* Taller nav */
+            background: var(--nav-bg); border-top: 1px solid var(--border); 
+            display: flex; justify-content: space-around; align-items: center; z-index: 3000;
+            padding-bottom: 5px;
+        }
+        .nav-item { 
+            display: flex; flex-direction: column; align-items: center; 
+            color: #777; text-decoration: none; cursor: pointer;
+            flex: 1; /* Equal spacing */
+        }
+        .nav-item i { font-style: normal; font-size: 1.8rem; margin-bottom: 2px; } /* Larger Icons */
+        .nav-item span { font-size: 0.85rem; font-weight: 600; } /* Larger Text Labels */
+        .nav-item.active { color: var(--gold); }
+
+        /* QR Code Styling Fix */
+        .qr-section { 
+            margin: 25px auto; background: var(--card); padding: 25px; 
+            border-radius: 20px; border: 2px solid var(--gold); width: fit-content;
+        }
+        .qr-img { 
+            width: 180px; height: 180px; border-radius: 12px; 
+            background: white; padding: 10px; object-fit: contain;
+            display: block; margin: 0 auto;
+        }
+
+        /* Product Cards */
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 5px; }
+        .product-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); overflow: hidden; }
+        .product-card img { width: 100%; height: 200px; object-fit: cover; }
+        
+        /* App Header */
         .app-header {
-            background: var(--nav-bg); padding: 15px 20px; border-bottom: 1px solid var(--border);
+            background: var(--nav-bg); padding: 18px 20px; border-bottom: 1px solid var(--border);
             position: sticky; top: 0; z-index: 2000; display: flex; align-items: center; justify-content: space-between;
         }
-        .logo-area { display: flex; align-items: center; }
-        .logo-area img { height: 35px; border-radius: 50%; border: 1px solid var(--gold); margin-right: 10px; }
-        .logo-area span { font-weight: 900; letter-spacing: 3px; color: var(--gold); font-size: 1.1rem; }
-        .cart-icon { position: relative; font-size: 1.5rem; cursor: pointer; color: var(--gold); }
-        .cart-count { 
-            position: absolute; top: -5px; right: -8px; background: var(--red); color: white; 
-            font-size: 0.7rem; padding: 2px 6px; border-radius: 50%; font-weight: bold;
+        .logo-area img { height: 40px; border-radius: 50%; border: 1px solid var(--gold); margin-right: 12px; }
+        .logo-area span { font-weight: 900; letter-spacing: 3px; color: var(--gold); font-size: 1.3rem; }
+
+        .add-btn { 
+            background: var(--gold); color: #000; border: none; width: 100%; 
+            padding: 14px; border-radius: 10px; font-weight: bold; font-size: 0.9rem; cursor: pointer; 
         }
+
         .page-section { display: none; padding: 20px; animation: slideIn 0.3s ease-out; }
         .active-section { display: block; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .product-card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; position: relative; }
-        .product-card img { width: 100%; height: 180px; object-fit: cover; }
-        .add-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.75rem; cursor: pointer; margin-top: 10px; }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: var(--nav-bg); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 3000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: #666; font-size: 0.65rem; cursor: pointer; text-decoration: none; }
-        .nav-item.active { color: var(--gold); }
-        .floating-wa { position: fixed; bottom: 85px; right: 20px; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; z-index: 2500; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-        #cart-view { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; background: var(--bg); z-index: 4000; transition: 0.4s; padding: 20px; box-sizing: border-box; }
-        #cart-view.open { right: 0; }
-        #toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 10px 25px; border-radius: 50px; display: none; z-index: 5000; font-weight: bold; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div id="toast">Saved to Favorites! 👜</div>
-
 <div class="app-header">
     <div class="logo-area">
-        <img src="logo.png" onerror="this.src='https://via.placeholder.com/40/111/d4af37?text=Y'">
+        <img src="logo.png" alt="YBG">
         <span>YBG</span>
     </div>
     <div style="display:flex; gap:15px; align-items:center;">
-        <div onclick="toggleTheme()" style="cursor:pointer; font-size:1.2rem;" id="theme-btn">🌓</div>
-        <div class="cart-icon" onclick="toggleCart()">
-            👜 <span class="cart-count" id="count-display">0</span>
+        <div onclick="toggleTheme()" style="font-size:1.5rem;" id="theme-btn">🌓</div>
+        <div style="position:relative; font-size:1.6rem; color:var(--gold);" onclick="toggleCart()">
+            👜 <span id="count-display" style="position:absolute; top:-5px; right:-8px; background:var(--red); color:white; font-size:0.7rem; padding:2px 6px; border-radius:50%;">0</span>
         </div>
     </div>
 </div>
 
 <section id="home" class="page-section active-section">
-    <div style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('1.jpg'); background-size: cover; padding: 40px 20px; border-radius: 15px; border: 1px solid var(--gold); text-align: left;">
-        <h1 style="margin: 0; font-size: 1.8rem; color: var(--gold);">YBG APP</h1>
-        <p style="font-size: 0.8rem; color: #fff;">Bespoke Luxury for HTU.</p>
-        <button onclick="navTo('shop', document.querySelectorAll('.nav-item')[1])" class="add-btn" style="width: auto; padding: 10px 20px;">BROWSE COLLECTION</button>
+    <div style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('1.jpg'); background-size: cover; background-position: center; padding: 50px 20px; border-radius: 20px; border: 1px solid var(--gold); text-align: left;">
+        <h1 style="margin: 0; font-size: 2rem; color: var(--gold);">YBG APPLIED</h1>
+        <p style="font-size: 0.9rem; color: #fff;">Bespoke Luxury Mobile Experience.</p>
     </div>
     
-    <div style="margin-top:20px; background:var(--card); padding:20px; border-radius:12px; border:1px solid var(--gold); text-align:center;">
-        <p style="font-size:0.8rem; margin:0 0 10px 0;">Scan to Install App</p>
-        <img src="qr-code.png" style="width:120px; border:4px solid white; border-radius:8px;">
+    <div class="qr-section">
+        <p style="font-size:0.9rem; margin-top:0; font-weight:bold;">INSTALL ON MOBILE</p>
+        <img src="qr-code.png" class="qr-img" alt="YBG App QR">
+        <p style="font-size:0.75rem; color:#888; margin-top:10px;">Scan to see it live in your launcher</p>
     </div>
 </section>
 
 <section id="shop" class="page-section">
-    <h3 style="text-align: left; margin: 0;">2026 Catalog</h3>
+    <h3 style="text-align: left;">2026 Collection</h3>
     <div class="product-grid" id="full-catalog"></div>
 </section>
 
 <section id="research" class="page-section">
-    <div style="background: var(--card); padding: 25px; border-radius: 15px; border-left: 5px solid var(--gold);">
-        <h3>Research Study</h3>
-        <p style="font-size:0.8rem;">Analyzing Consumer Behavior in Mobile Bespoke Fashion.</p>
-        <a href="https://forms.gle/5Ghkgky4mPBprTLY8" class="add-btn" style="display:block; text-align:center; text-decoration:none;">START SURVEY</a>
+    <div style="background: var(--card); padding: 30px; border-radius: 20px; border-left: 6px solid var(--gold); text-align: left;">
+        <h2 style="margin:0;">Pilot Study</h2>
+        <p style="color:#888;">Faculty of Applied Sciences</p>
+        <p>Your interaction data helps us analyze the digitalization of Ghanaian tailoring.</p>
+        <a href="YOUR_GOOGLE_FORM_LINK" class="add-btn" style="display:block; text-align:center; text-decoration:none;">START SURVEY</a>
     </div>
 </section>
 
 <section id="contact" class="page-section">
-    <form action="https://formspree.io/f/mpqjwdlq" method="POST" style="text-align:left;">
-        <input type="hidden" name="_next" value="https://oscar-v-htu.github.io/ybg-garments/success.html">
-        <label style="font-size:0.8rem;">Name</label>
-        <input type="text" name="name" style="width:100%; padding:12px; margin:5px 0 15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:8px;" required>
-        <label style="font-size:0.8rem;">Message</label>
-        <textarea name="message" rows="4" style="width:100%; padding:12px; margin:5px 0 15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:8px;" required></textarea>
-        <button type="submit" class="add-btn">SEND INQUIRY</button>
-    </form>
+    <div style="background:var(--card); padding:25px; border-radius:20px; text-align:left;">
+        <h3 style="margin-top:0;">Direct Support</h3>
+        <form action="https://formspree.io/f/mpqjwdlq" method="POST">
+            <input type="hidden" name="_next" value="https://oscar-v-htu.github.io/ybg-garments/success.html">
+            <input type="text" name="name" placeholder="Name" style="width:100%; padding:15px; margin-bottom:15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:10px; box-sizing:border-box;" required>
+            <textarea name="message" rows="4" placeholder="How can we help?" style="width:100%; padding:15px; margin-bottom:15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:10px; box-sizing:border-box;" required></textarea>
+            <button type="submit" class="add-btn" style="font-size:1rem;">SEND MESSAGE</button>
+        </form>
+    </div>
 </section>
 
-<div id="cart-view">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2>My Bag</h2>
-        <span onclick="toggleCart()" style="font-size: 2.5rem; color: var(--gold); cursor:pointer;">×</span>
-    </div>
-    <div id="cart-list" style="margin-top: 20px; text-align: left;"></div>
-    <button class="add-btn" style="position:absolute; bottom:40px; left:20px; right:20px; padding:18px;" onclick="checkoutWhatsApp()">ORDER ON WHATSAPP</button>
-</div>
-
-<div class="bottom-nav">
+<nav class="bottom-nav">
     <div class="nav-item active" onclick="navTo('home', this)"><i>🏠</i><span>Home</span></div>
     <div class="nav-item" onclick="navTo('shop', this)"><i>👕</i><span>Shop</span></div>
     <div class="nav-item" onclick="navTo('research', this)"><i>📊</i><span>Survey</span></div>
     <div class="nav-item" onclick="navTo('contact', this)"><i>✉️</i><span>Help</span></div>
-</div>
-
-<a href="https://wa.me/233544869192" class="floating-wa">💬</a>
+</nav>
 
 <script>
-    // Register PWA Service Worker
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-    }
+    // PWA SW
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 
     const items = [
         { name: "Ashanti Royal", price: 450, img: "1.jpg" },
@@ -152,18 +162,18 @@
     let cart = JSON.parse(localStorage.getItem('ybg_cart')) || [];
     let isLight = localStorage.getItem('ybg_theme') === 'light';
 
-    function initApp() {
+    function init() {
         if(isLight) { document.body.classList.add('light-mode'); document.getElementById('theme-btn').innerText = '🌙'; }
         document.getElementById('count-display').innerText = cart.length;
-        updateCartUI();
+        
         const grid = document.getElementById('full-catalog');
         items.forEach(p => {
             grid.innerHTML += `
                 <div class="product-card">
-                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200x200/111/d4af37?text=YBG'">
-                    <div style="padding:10px;">
-                        <p style="font-size:0.7rem; color:#888; margin:0;">${p.name}</p>
-                        <p style="font-weight:bold; margin:5px 0;">GH₵ ${p.price}</p>
+                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200/111/d4af37?text=YBG'">
+                    <div style="padding:12px;">
+                        <p style="font-size:0.75rem; color:#888; margin:0;">${p.name}</p>
+                        <p style="font-weight:bold; margin:8px 0; font-size:1rem;">GH₵ ${p.price}</p>
                         <button class="add-btn" onclick="addToCart('${p.name}')">SAVE</button>
                     </div>
                 </div>`;
@@ -172,33 +182,28 @@
 
     function toggleTheme() {
         document.body.classList.toggle('light-mode');
-        const lightOn = document.body.classList.contains('light-mode');
-        localStorage.setItem('ybg_theme', lightOn ? 'light' : 'dark');
-        document.getElementById('theme-btn').innerText = lightOn ? '🌙' : '☀️';
+        const light = document.body.classList.contains('light-mode');
+        localStorage.setItem('ybg_theme', light ? 'light' : 'dark');
+        document.getElementById('theme-btn').innerText = light ? '🌙' : '☀️';
+    }
+
+    function navTo(id, el) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+        document.getElementById(id).classList.add('active-section');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
+        window.scrollTo(0,0);
     }
 
     function addToCart(n) {
         cart.push(n);
         localStorage.setItem('ybg_cart', JSON.stringify(cart));
         document.getElementById('count-display').innerText = cart.length;
-        updateCartUI();
-        const t = document.getElementById('toast'); t.style.display='block'; setTimeout(()=> t.style.display='none', 1500);
+        alert(n + " saved to your bag!");
     }
 
-    function updateCartUI() {
-        const list = document.getElementById('cart-list');
-        list.innerHTML = cart.length === 0 ? "<p>Empty</p>" : cart.map((item, idx) => `
-            <div style="padding:15px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between;">
-                <span>${item}</span><span onclick="remove(${idx})" style="color:var(--red);">×</span>
-            </div>`).join('');
-    }
-
-    function remove(idx) { cart.splice(idx, 1); localStorage.setItem('ybg_cart', JSON.stringify(cart)); document.getElementById('count-display').innerText = cart.length; updateCartUI(); }
-    function navTo(id, el) { document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section')); document.getElementById(id).classList.add('active-section'); document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); el.classList.add('active'); window.scrollTo(0,0); }
-    function toggleCart() { document.getElementById('cart-view').classList.toggle('open'); }
-    function checkoutWhatsApp() { window.open(`https://wa.me/233544869192?text=Inquiry: ${cart.join(", ")}`); }
-
-    initApp();
+    init();
 </script>
+
 </body>
 </html>
