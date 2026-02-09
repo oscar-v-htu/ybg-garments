@@ -3,28 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>YBG App | HTU Portal</title>
+    <title>YBG App | Luxury Edition</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#d4af37">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root { 
-            --gold: #d4af37; --bg: #000; --card: #111; --text: #fff; 
-            --red: #ff4d4d; --nav-bg: #111; --border: #222;
-        }
-        body.light-mode {
-            --bg: #f4f4f4; --card: #ffffff; --text: #222; 
-            --nav-bg: #ffffff; --border: #ddd;
-        }
-        body { 
-            background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; 
-            margin: 0; padding: 0 0 100px 0; overflow-x: hidden; transition: 0.3s ease;
+            --gold: #d4af37; 
+            --bg-gradient: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --red: #ff4d4d;
         }
 
-        /* FIX: Ensure overlays don't block clicks when hidden */
-        #login-screen, #welcome-overlay, #menu-overlay {
-            pointer-events: auto;
+        body.light-mode {
+            --bg-gradient: linear-gradient(135deg, #fdfdfd 0%, #e0e0e0 100%);
+            --glass: rgba(0, 0, 0, 0.03);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --text: #222;
+        }
+        
+        body { 
+            background: var(--bg-gradient); color: var(--text); font-family: 'Montserrat', sans-serif; 
+            margin: 0; padding: 0 0 100px 0; overflow-x: hidden; transition: 0.5s ease;
+            min-height: 100vh;
         }
 
         /* --- AUTH & OVERLAYS --- */
@@ -33,157 +38,148 @@
             background: #000; z-index: 10000; display: flex; align-items: center; justify-content: center;
         }
         .login-box {
-            width: 85%; max-width: 350px; text-align: center; padding: 30px;
-            border: 2px solid var(--gold); border-radius: 20px; background: #111;
+            width: 85%; max-width: 350px; text-align: center; padding: 40px 30px;
+            border: 1px solid var(--gold); border-radius: 30px; background: rgba(20,20,20,0.8);
+            backdrop-filter: blur(20px);
         }
 
-        #welcome-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 9000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
-        }
-
-        /* --- APP HEADER (LOGO FIX) --- */
+        /* --- STYLISH HEADER --- */
         .app-header {
-            background: var(--nav-bg); padding: 15px 20px; border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 2000; display: flex; align-items: center; justify-content: space-between;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky; top: 0; z-index: 2000;
+            display: flex; align-items: center; justify-content: space-between;
         }
-        
-        /* This is the button that was failing - made it bigger and more reactive */
-        .logo-btn { 
-            display: flex; align-items: center; cursor: pointer; border: none; 
-            background: transparent; padding: 5px; margin-left: -5px;
-            z-index: 2100; /* Ensure it is above the header background */
-        }
-        .logo-btn img { height: 40px; border-radius: 50%; border: 2px solid var(--gold); margin-right: 12px; pointer-events: none; }
-        .logo-btn span { font-weight: 900; color: var(--gold); font-size: 1.3rem; letter-spacing: 2px; pointer-events: none; }
-        .logo-btn:active { opacity: 0.6; }
+        .logo-btn { display: flex; align-items: center; cursor: pointer; border: none; background: transparent; outline: none; }
+        .logo-btn img { height: 42px; width: 42px; border-radius: 50%; border: 2px solid var(--gold); margin-right: 15px; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .logo-btn span { font-weight: 900; color: var(--gold); font-size: 1.4rem; letter-spacing: 4px; }
 
-        /* --- SIDE MENU --- */
-        #settings-menu {
-            position: fixed; top: 0; left: -100%; width: 80%; max-width: 300px; height: 100%;
-            background: var(--nav-bg); z-index: 5000; transition: 0.4s; box-shadow: 10px 0 30px rgba(0,0,0,0.5);
-        }
-        #settings-menu.open { left: 0; }
-        .profile-header { background: var(--gold); padding: 40px 20px 20px; color: #000; }
-
-        /* --- UI COMPONENTS --- */
-        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px; }
-        .product-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); overflow: hidden; }
-        .product-card img { width: 100%; height: 180px; object-fit: cover; }
-        .add-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        
+        /* --- MODERN BOTTOM NAV --- */
         .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; right: 0; height: 80px; 
-            background: var(--nav-bg); border-top: 1px solid var(--border); 
+            position: fixed; bottom: 20px; left: 20px; right: 20px; height: 70px; 
+            background: rgba(20, 20, 20, 0.8); 
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
             display: flex; justify-content: space-around; align-items: center; z-index: 3000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: #777; flex: 1; cursor: pointer; }
-        .nav-item.active { color: var(--gold); }
-        .nav-item i { font-style: normal; font-size: 1.8rem; }
+        body.light-mode .bottom-nav { background: rgba(255, 255, 255, 0.8); }
 
-        #cart-view { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; background: var(--bg); z-index: 4000; transition: 0.4s; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; }
+        .nav-item { 
+            display: flex; flex-direction: column; align-items: center; 
+            color: #888; text-decoration: none; cursor: pointer; transition: 0.3s;
+        }
+        .nav-item.active { color: var(--gold); transform: translateY(-5px); }
+        
+        /* Modern SVG Icons */
+        .nav-icon { width: 24px; height: 24px; fill: currentColor; margin-bottom: 4px; }
+        .nav-item span { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- PRODUCT CARDS --- */
+        .product-card { 
+            background: var(--glass); 
+            border: 1px solid var(--glass-border);
+            border-radius: 25px; overflow: hidden; 
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        .product-card:active { transform: scale(0.97); }
+        .product-card img { width: 100%; height: 220px; object-fit: cover; }
+        
+        .add-btn { 
+            background: linear-gradient(90deg, #d4af37, #f1d592); 
+            color: #000; border: none; width: 100%; padding: 15px; 
+            border-radius: 15px; font-weight: 900; cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        #cart-view {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
+            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px);
+            z-index: 4000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 30px; box-sizing: border-box;
+        }
         #cart-view.open { right: 0; }
 
-        .page-section { display: none; padding: 20px; animation: slideIn 0.3s ease-out; }
+        .page-section { display: none; padding: 25px; animation: fadeIn 0.5s ease-out; }
         .active-section { display: block; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
+<svg style="display: none;">
+    <symbol id="icon-home" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></symbol>
+    <symbol id="icon-shop" viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-8-2h4v2h-4V4z"/></symbol>
+    <symbol id="icon-survey" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></symbol>
+    <symbol id="icon-help" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></symbol>
+</svg>
+
 <div id="login-screen">
     <div class="login-box">
-        <img src="logo.png" style="width: 70px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 15px;">
-        <h2 style="color:var(--gold); margin:0;">YBG ACCESS</h2>
-        <input type="text" id="login-name" class="login-input" placeholder="Enter Full Name">
+        <img src="logo.png" style="width: 80px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 20px;">
+        <h2 style="color:var(--gold); margin:0; letter-spacing: 2px;">SECURE LOGIN</h2>
+        <input type="text" id="login-name" class="login-input" placeholder="Your Name">
         <input type="password" id="login-code" class="login-input" placeholder="Access Code (2026)">
-        <button onclick="handleLogin()" class="add-btn" style="margin-top: 10px;">ENTER PORTAL</button>
-        <p id="login-error" style="color:red; font-size: 0.7rem; margin-top: 10px; display: none;">Invalid Access Code</p>
+        <button onclick="handleLogin()" class="add-btn" style="margin-top: 20px;">AUTHENTICATE</button>
+        <p id="login-error" style="color:var(--red); font-size: 0.75rem; margin-top: 15px; display: none; font-weight: bold;">INVALID ACCESS CODE</p>
     </div>
 </div>
-
-<div id="welcome-overlay">
-    <div style="background:var(--card); border:2px solid var(--gold); padding:30px; border-radius:20px; width:85%; text-align:center;">
-        <h2 style="color:var(--gold);">Akwaaba!</h2>
-        <p>1. Browse Styles<br>2. Save to Bag<br>3. Submit Survey</p>
-        <button onclick="closeWelcome()" class="add-btn">GET STARTED</button>
-    </div>
-</div>
-
-<div id="settings-menu">
-    <div class="profile-header">
-        <h2 id="display-name">User</h2>
-        <p>Applied Sciences Participant</p>
-    </div>
-    <div style="padding:20px;">
-        <div onclick="toggleTheme()" style="padding:15px 0; border-bottom:1px solid var(--border); cursor:pointer; color:var(--text);">🌓 Change Theme</div>
-        <div onclick="resetApp()" style="padding:15px 0; border-bottom:1px solid var(--border); cursor:pointer; color:var(--text);">🔄 Reset App</div>
-        <div onclick="logout()" style="padding:15px 0; color:var(--red); cursor:pointer;">🚪 Logout</div>
-    </div>
-</div>
-
-<div id="menu-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:none; z-index:4500;" onclick="toggleSettings()"></div>
 
 <div class="app-header">
-    <button class="logo-btn" id="main-logo-trigger" onclick="toggleSettings()">
+    <button class="logo-btn" onclick="toggleSettings()">
         <img src="logo.png" alt="YBG">
         <span>YBG</span>
     </button>
-    <div onclick="toggleCart()" style="position:relative; font-size:1.6rem; color:var(--gold); cursor:pointer;">
-        👜 <span id="count-display" style="position:absolute; top:-5px; right:-8px; background:var(--red); color:white; font-size:0.7rem; padding:2px 6px; border-radius:50%;">0</span>
+    <div onclick="toggleCart()" style="position:relative; cursor:pointer;">
+        <svg style="width:30px; height:30px; fill:var(--gold);"><path d="M17.21 9l-4.38-6.56c-.19-.28-.51-.42-.83-.42-.32 0-.64.14-.83.43L6.79 9H2c-.55 0-1 .45-1 1 0 .09.01.18.04.27l2.54 9.27c.23.84 1 1.46 1.92 1.46h13c.92 0 1.69-.62 1.93-1.46l2.54-9.27L23 10c0-.55-.45-1-1-1h-4.79zM9 9l3-4.4L15 9H9z"/></svg>
+        <span id="count-display" style="position:absolute; top:-5px; right:-8px; background:var(--red); color:white; font-size:0.7rem; padding:2px 6px; border-radius:50%; font-weight:bold;">0</span>
     </div>
 </div>
 
 <section id="home" class="page-section active-section">
-    <div style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('1.jpg'); background-size: cover; background-position: center; padding: 50px 20px; border-radius: 20px; border: 1px solid var(--gold); text-align: left;">
-        <h1 style="margin: 0; font-size: 2rem; color: var(--gold);">YBG APPLIED</h1>
-        <p style="font-size: 0.9rem; color: #fff;">Bespoke Tailoring Digital Research.</p>
+    <div style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('1.jpg'); background-size: cover; background-position: center; padding: 60px 25px; border-radius: 30px; border: 1px solid var(--glass-border); text-align: left; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+        <h1 style="margin: 0; font-size: 2.2rem; color: var(--gold); line-height: 1.1;">Bespoke <br>Prestige</h1>
+        <p style="font-size: 0.9rem; color: #ccc; margin-top: 10px; font-weight: 300;">Elevating Ghanaian Tailoring.</p>
     </div>
-    <div style="text-align:center; margin-top:25px; background:#fff; padding:15px; border-radius:15px; width:150px; margin-inline:auto; border:2px solid var(--gold);">
-        <img src="qr-code.png" style="width:100%;" onerror="this.src='https://via.placeholder.com/150?text=QR'">
+    <div style="text-align:center; margin-top:40px; background:rgba(255,255,255,0.05); padding:30px; border-radius:30px; border: 1px dashed var(--gold);">
+        <p style="font-weight:bold; font-size:0.8rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 15px;">SCAN TO SYNC APP</p>
+        <img src="qr-code.png" style="width:140px; border-radius:15px; border: 5px solid white;">
     </div>
 </section>
 
 <section id="shop" class="page-section">
-    <h3 style="text-align: left;">Full Catalog</h3>
+    <h2 style="font-size: 1.2rem; letter-spacing: 3px; margin-bottom: 20px;">COLLECTION 2026</h2>
     <div class="product-grid" id="full-catalog"></div>
 </section>
 
 <section id="research" class="page-section">
-    <div style="background: var(--card); padding: 30px; border-radius: 20px; border-left: 6px solid var(--gold); text-align: left;">
-        <h2>Pilot Survey</h2>
-        <p>Complete this after testing the app features.</p>
-        <a href="https://forms.gle/p4WErE6aEENSZEu28" class="add-btn" style="display:block; text-align:center; text-decoration:none;">OPEN FORM</a>
+    <div style="background: var(--glass); padding: 40px 30px; border-radius: 30px; border: 1px solid var(--gold); text-align: left;">
+        <h2 style="margin:0; font-size: 1.5rem; color: var(--gold);">Research Pilot</h2>
+        <p style="font-size: 0.85rem; line-height: 1.6; margin: 20px 0;">Your feedback is the most critical part of this study. Please complete the survey after evaluating the interface.</p>
+        <a href="https://forms.gle/ySktAgGr5jUXx2yR8" class="add-btn" style="display:block; text-align:center; text-decoration:none;">OPEN RESEARCH FORM</a>
     </div>
 </section>
-
-<section id="contact" class="page-section">
-    <div style="background:var(--card); padding:25px; border-radius:20px;">
-        <form action="https://formspree.io/f/mpqjwdlq" method="POST">
-            <input type="text" name="name" placeholder="Your Name" style="width:100%; padding:15px; margin-bottom:15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:10px; box-sizing:border-box;" required>
-            <textarea name="message" rows="4" placeholder="How can we help?" style="width:100%; padding:15px; margin-bottom:15px; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:10px; box-sizing:border-box;" required></textarea>
-            <button type="submit" class="add-btn">SEND</button>
-        </form>
-    </div>
-</section>
-
-<div id="cart-view">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2 style="color:var(--gold);">My Bag</h2>
-        <span onclick="toggleCart()" style="font-size: 2.5rem; color: var(--gold); cursor:pointer;">×</span>
-    </div>
-    <div id="cart-list" style="flex-grow:1; overflow-y:auto; margin-top:20px;"></div>
-    <div style="padding-top:20px;">
-        <button onclick="checkoutWhatsApp()" class="add-btn" style="margin-bottom:10px;">WHATSAPP ORDER</button>
-        <button onclick="clearCart()" style="background:transparent; color:var(--red); border:1px solid var(--red); width:100%; padding:12px; border-radius:10px; font-weight:bold; cursor:pointer;">CLEAR BAG</button>
-    </div>
-</div>
 
 <nav class="bottom-nav">
-    <div class="nav-item active" onclick="navTo('home', this)"><i>🏠</i><span>Home</span></div>
-    <div class="nav-item" onclick="navTo('shop', this)"><i>👕</i><span>Shop</span></div>
-    <div class="nav-item" onclick="navTo('research', this)"><i>📊</i><span>Survey</span></div>
-    <div class="nav-item" onclick="navTo('contact', this)"><i>✉️</i><span>Help</span></div>
+    <div class="nav-item active" onclick="navTo('home', this)">
+        <svg class="nav-icon"><use xlink:href="#icon-home"></use></svg>
+        <span>Home</span>
+    </div>
+    <div class="nav-item" onclick="navTo('shop', this)">
+        <svg class="nav-icon"><use xlink:href="#icon-shop"></use></svg>
+        <span>Shop</span>
+    </div>
+    <div class="nav-item" onclick="navTo('research', this)">
+        <svg class="nav-icon"><use xlink:href="#icon-survey"></use></svg>
+        <span>Survey</span>
+    </div>
+    <div class="nav-item" onclick="navTo('contact', this)">
+        <svg class="nav-icon"><use xlink:href="#icon-help"></use></svg>
+        <span>Help</span>
+    </div>
 </nav>
 
 <script>
@@ -210,101 +206,48 @@
         { name: "Urban Tailor", price: 185, img: "casual_9.jpg" }
     ];
 
-    let cart = JSON.parse(localStorage.getItem('ybg_cart')) || [];
-    let isLight = localStorage.getItem('ybg_theme') === 'light';
-
-    let logoutTimer;
-    const INACTIVITY_LIMIT = 30 * 60 * 1000;
-
-    function resetTimer() {
-        clearTimeout(logoutTimer);
-        if (localStorage.getItem('ybg_auth') === 'true') logoutTimer = setTimeout(logout, INACTIVITY_LIMIT);
-    }
-
-    window.ontouchstart = resetTimer;
-    window.onclick = resetTimer;
-
     function handleLogin() {
         const name = document.getElementById('login-name').value;
         const code = document.getElementById('login-code').value;
         if (name.length > 2 && code === "2026") {
             localStorage.setItem('ybg_auth', 'true');
             localStorage.setItem('ybg_user', name);
-            checkAuth();
-            if (!localStorage.getItem('ybg_visited')) {
-                document.getElementById('welcome-overlay').style.display = 'flex';
-            }
+            location.reload();
         } else {
             document.getElementById('login-error').style.display = 'block';
         }
     }
 
-    function checkAuth() {
+    function init() {
         if (localStorage.getItem('ybg_auth') === 'true') {
             document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('display-name').innerText = localStorage.getItem('ybg_user');
-            resetTimer();
         }
-    }
-
-    function logout() { localStorage.removeItem('ybg_auth'); location.reload(); }
-    
-    function closeWelcome() { 
-        localStorage.setItem('ybg_visited', 'true'); 
-        document.getElementById('welcome-overlay').style.display = 'none'; 
-    }
-
-    function resetApp() { if(confirm("Reset all?")) { localStorage.clear(); location.reload(); } }
-
-    function init() {
-        checkAuth();
-        if(isLight) document.body.classList.add('light-mode');
-        updateCartUI();
+        
         const grid = document.getElementById('full-catalog');
         items.forEach(p => {
             grid.innerHTML += `
                 <div class="product-card">
-                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200/111/d4af37?text=YBG'">
-                    <div style="padding:15px;">
-                        <p style="font-size:0.75rem; color:#888; margin:0;">${p.name}</p>
-                        <p style="font-weight:bold; margin:8px 0;">GH₵ ${p.price}</p>
-                        <button class="add-btn" onclick="addToCart('${p.name}')">SAVE</button>
+                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/300/111/d4af37?text=YBG'">
+                    <div style="padding:20px;">
+                        <p style="font-size:0.7rem; color:#888; margin:0; text-transform:uppercase; letter-spacing:1px;">${p.name}</p>
+                        <p style="font-weight:900; margin:10px 0; font-size:1.1rem;">GH₵ ${p.price}</p>
+                        <button class="add-btn" onclick="addToCart('${p.name}')">ADD TO BAG</button>
                     </div>
                 </div>`;
         });
     }
 
-    function toggleTheme() {
-        document.body.classList.toggle('light-mode');
-        localStorage.setItem('ybg_theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
-    }
-
-    function toggleSettings() {
-        console.log("Logo Clicked"); // Check your console for this!
-        document.getElementById('settings-menu').classList.toggle('open');
-        const overlay = document.getElementById('menu-overlay');
-        overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+    function navTo(id, el) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+        document.getElementById(id).classList.add('active-section');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
+        window.scrollTo(0,0);
     }
 
     function addToCart(n) {
-        cart.push(n);
-        localStorage.setItem('ybg_cart', JSON.stringify(cart));
-        updateCartUI();
-        alert(n + " added!");
+        alert(n + " added to your prestige collection.");
     }
-
-    function updateCartUI() {
-        document.getElementById('count-display').innerText = cart.length;
-        const list = document.getElementById('cart-list');
-        list.innerHTML = cart.length === 0 ? "<p style='text-align:center; color:#888;'>Bag is empty.</p>" : 
-            cart.map((name, idx) => `<div style="padding:15px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; color:var(--text);"><span>${name}</span><span onclick="removeItem(${idx})" style="color:var(--red); cursor:pointer;">REMOVE</span></div>`).join('');
-    }
-
-    function removeItem(idx) { cart.splice(idx, 1); localStorage.setItem('ybg_cart', JSON.stringify(cart)); updateCartUI(); }
-    function clearCart() { cart = []; localStorage.setItem('ybg_cart', JSON.stringify(cart)); updateCartUI(); }
-    function navTo(id, el) { document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section')); document.getElementById(id).classList.add('active-section'); document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); el.classList.add('active'); window.scrollTo(0,0); }
-    function toggleCart() { document.getElementById('cart-view').classList.toggle('open'); }
-    function checkoutWhatsApp() { window.open(`https://wa.me/233544869192?text=Inquiry: ${cart.join(", ")}`); }
 
     init();
 </script>
