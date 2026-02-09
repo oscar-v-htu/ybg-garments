@@ -3,22 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message Sent | YBG Garments</title>
+    <title>Message Sent | YBG</title>
     <style>
-        :root { --gold: #d4af37; --bg: #0a0a0a; }
-        body { background: var(--bg); color: var(--gold); font-family: 'Segoe UI', sans-serif; text-align: center; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .success-box { padding: 40px; border: 2px solid var(--gold); border-radius: 20px; background: #1a1a1a; max-width: 400px; animation: pop 0.5s ease; }
-        @keyframes pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        h1 { color: white; margin-top: 0; }
-        .btn { background: var(--gold); color: black; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; margin-top: 20px; }
+        :root { --gold: #d4af37; --bg: #000; --text: #fff; }
+        body { 
+            background: var(--bg); color: var(--text); 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; align-items: center; justify-content: center; 
+            height: 100vh; margin: 0; text-align: center;
+        }
+        .success-box {
+            padding: 40px; border: 1px solid var(--gold); border-radius: 20px;
+            width: 85%; max-width: 400px; animation: scaleUp 0.5s ease;
+        }
+        @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .icon { font-size: 50px; color: var(--gold); margin-bottom: 20px; }
+        .btn {
+            display: inline-block; margin-top: 30px; padding: 15px 30px;
+            background: var(--gold); color: #000; text-decoration: none;
+            font-weight: bold; border-radius: 10px;
+        }
     </style>
 </head>
 <body>
-    <div class="success-box">
-        <div style="font-size: 4em;">✅</div>
-        <h1>Thank You!</h1>
-        <p style="color: #888;">Your message was sent successfully. Oscar or the YBG team will reach out to you shortly.</p>
-        <a href="index.html" class="btn">Return to Website</a>
-    </div>
+
+<div class="success-box">
+    <div class="icon">✔️</div>
+    <h2 style="color:var(--gold);">Message Received</h2>
+    <p>Thank you for your inquiry. YBG Garments will contact you shortly regarding your bespoke requirements.</p>
+    <a href="index.html" class="btn">RETURN TO APP</a>
+</div>
+
 </body>
 </html>
