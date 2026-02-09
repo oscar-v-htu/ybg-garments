@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bespoke Dash | YBG Games</title>
+    <style>
+        body { margin: 0; background: #050505; color: #d4af37; font-family: sans-serif; overflow: hidden; text-align: center; }
+        canvas { display: block; background: #111; margin: 0 auto; border-bottom: 5px solid #d4af37; }
+        .ui { position: fixed; top: 20px; width: 100%; pointer-events: none; }
+        #score { font-size: 2rem; font-weight: bold; }
+        .controls { position: fixed; bottom: 50px; width: 100%; font-size: 0.8rem; opacity: 0.5; }
+    </style>
+</head>
+<body>
+
+    <div class="ui">
+        <div id="score">0</div>
+        <div>GOLD THREAD COLLECTED</div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="controls">TAP TO JUMP</div>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreElement = document.getElementById('score');
+
+    // Resize canvas to mobile screen
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight * 0.7;
+
+    // --- GAME CONSTANTS ---
+    const gravity = 0.6;
+    let score = 0;
+    let gameActive = true;
+
+    // --- THE PLAYER (The Tailor) ---
+    const player = {
+        x: 50,
+        y: canvas.height - 50,
+        width: 30,
+        height: 30,
+        color: '#d4af37',
+        dy: 0,
+        jumpForce: -12,
+        grounded: false
+    };
+
+    // --- OBSTACLES (Scissors/Needles) ---
+    const obstacles = [];
+    function spawnObstacle() {
+        if(!gameActive) return;
+        obstacles.push({
+            x: canvas.width,
+            y: canvas.height - 40,
+            width: 20,
+            height: 40,
+            color: '#ff4d4d',
+            speed: 5 + (score / 10) // Gets faster as you score
+        });
+        setTimeout(spawnObstacle, Math.random() * 1500 + 1000);
+    }
+
+    // --- THE GAME LOOP ---
+    function update() {
+        if(!gameActive) return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 1. Handle Player Physics
+        player.dy += gravity;
+        player.y += player.dy;
+
+        // Ground Collision
+        if (player.y + player.height > canvas.height) {
+            player.y = canvas.height - player.height;
+            player.dy = 0;
+            player.grounded = true;
+        } else {
+            player.grounded = false;
+        }
+
+        // Draw Player
+        ctx.fillStyle = player.color;
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+
+        // 2. Handle Obstacles
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+            let o = obstacles[i];
+            o.x -= o.speed;
+
+            // Draw Obstacle
+            ctx.fillStyle = o.color;
+            ctx.fillRect(o.x, o.y, o.width, o.height);
+
+            // Collision Detection
+            if (player.x < o.x + o.width &&
+                player.x + player.width > o.x &&
+                player.y < o.y + o.height &&
+                player.y + player.height > o.y) {
+                gameOver();
+            }
+
+            // Score Point
+            if (o.x + o.width < 0) {
+                obstacles.splice(i, 1);
+                score++;
+                scoreElement.innerText = score;
+            }
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    // --- INPUT HANDLING ---
+    function jump() {
+        if (player.grounded) {
+            player.dy = player.jumpForce;
+            player.grounded = false;
+        }
+        if (!gameActive) {
+            location.reload(); // Restart on tap
+        }
+    }
+
+    function gameOver() {
+        gameActive = false;
+        ctx.fillStyle = "rgba(0,0,0,0.7)";
+        ctx.fillRect(0,0, canvas.width, canvas.height);
+        ctx.fillStyle = "white";
+        ctx.font = "20px Arial";
+        ctx.fillText("GAME OVER", canvas.width/2 - 60, canvas.height/2);
+        ctx.fillText("TAP TO RESTART", canvas.width/2 - 80, canvas.height/2 + 40);
+    }
+
+    window.addEventListener('touchstart', jump);
+    window.addEventListener('mousedown', jump);
+
+    // --- START ---
+    spawnObstacle();
+    update();
+</script>
+</body>
+</html>
