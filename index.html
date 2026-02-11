@@ -9,7 +9,7 @@
         :root {
             --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
             --text: #ffffff;
-            --accent: #d4af37; /* Luxury Gold used in survey and nav */
+            --accent: #d4af37; 
         }
 
         body {
@@ -18,8 +18,6 @@
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0 0 100px 0; 
-            overflow-x: hidden;
-            transition: 0.5s ease;
             min-height: 100vh;
         }
 
@@ -44,7 +42,27 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Form Styling for HTU Research */
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gal-item {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #333;
+            transition: transform 0.3s ease;
+        }
+
+        .gal-item:hover {
+            transform: scale(1.03);
+            border-color: var(--accent);
+        }
+
+        /* Form Styling */
         .survey-container {
             max-width: 500px;
             margin: 0 auto;
@@ -59,7 +77,6 @@
             color: white;
             padding: 12px;
             border-radius: 5px;
-            font-family: 'Montserrat', sans-serif;
         }
 
         /* Navigation */
@@ -99,6 +116,21 @@
             font-weight: bold;
             text-transform: uppercase;
         }
+
+        .filter-btn {
+            font-size: 0.6em;
+            padding: 8px 15px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .filter-btn.active-filter {
+            background: var(--accent);
+            color: #000;
+        }
     </style>
 </head>
 <body>
@@ -115,51 +147,45 @@
 
     <section id="home" class="page-section active-section">
         <div style="text-align: center; padding: 20px 0;">
-            <h2 style="color: var(--accent); letter-spacing: 5px; font-weight: 300; text-transform: uppercase;">The Atelier</h2>
-            <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
-                Where Traditional Ghanaian Craft Meets Modern Corporate Elegance.
-            </p>
-            
-            <div style="margin: 20px auto; max-width: 500px; position: relative;">
-                <img src="1.jpg" alt="Featured Bespoke Suit" style="width: 100%; border-radius: 15px; border: 1px solid var(--accent); filter: grayscale(10%);">
-                <div style="position: absolute; bottom: 20px; left: 0; right: 0; background: rgba(0,0,0,0.6); padding: 10px;">
-                    <span style="color: var(--accent); font-size: 0.7em; letter-spacing: 2px;">PREMIUM COLLECTION</span>
-                </div>
+            <h2 style="color: var(--accent); letter-spacing: 5px; font-weight: 300;">THE ATELIER</h2>
+            <p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 30px;">Where Traditional Craft Meets Modern Elegance.</p>
+            <div style="margin: 20px auto; max-width: 500px;">
+                <img src="1.jpg" style="width: 100%; border-radius: 15px; border: 1px solid var(--accent);">
             </div>
-
-            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 15px;">
-                <button class="btn" style="font-size: 0.7em;" onclick="navTo('shop')">View Shop</button>
-                <button class="btn" style="font-size: 0.7em; background: transparent; border: 1px solid var(--accent); color: var(--accent);" onclick="navTo('research')">HTU Research</button>
-            </div>
+            <button class="btn" onclick="navTo('shop')">View Collections</button>
         </div>
     </section>
 
     <section id="shop" class="page-section">
-        <h3 style="text-align: center; color: var(--accent);">Our Collection</h3>
-        <p style="text-align: center; font-size: 0.8em;">Traditional Bespoke & Casual Wear</p>
-        </section>
+        <h3 style="text-align: center; color: var(--accent);">COLLECTIONS</h3>
+        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+            <button class="filter-btn active-filter" onclick="filterGallery('all', this)">All</button>
+            <button class="filter-btn" onclick="filterGallery('trad', this)">Traditional</button>
+            <button class="filter-btn" onclick="filterGallery('casual', this)">Casual</button>
+        </div>
+        <div class="gallery-grid" id="gallery-grid">
+            <img src="1.jpg" class="gal-item trad" alt="Trad 1">
+            <img src="2.jpg" class="gal-item trad" alt="Trad 2">
+            <img src="casual_1.jpg" class="gal-item casual" alt="Casual 1">
+            <img src="casual_2.jpg" class="gal-item casual" alt="Casual 2">
+            <img src="3.jpg" class="gal-item trad" alt="Trad 3">
+            <img src="casual_3.jpg" class="gal-item casual" alt="Casual 3">
+        </div>
+    </section>
 
     <section id="research" class="page-section">
         <div style="text-align: center; margin-bottom: 25px;">
             <h3 style="color: var(--accent);">HTU Student Survey</h3>
             <p style="font-size: 0.8em; opacity: 0.7;">Faculty of Applied Sciences Research</p>
         </div>
-        
         <div class="survey-container">
-            <label style="font-size: 0.7em; color: var(--accent); text-transform: uppercase;">Full Name</label>
-            <input type="text" id="stuName" placeholder="Enter your name">
-
-            <label style="font-size: 0.7em; color: var(--accent); text-transform: uppercase;">Department</label>
+            <input type="text" id="stuName" placeholder="Full Name">
             <select id="stuDept">
                 <option>Applied Sciences</option>
                 <option>Computer Science</option>
                 <option>Statistics</option>
-                <option>Industrial Art</option>
             </select>
-
-            <label style="font-size: 0.7em; color: var(--accent); text-transform: uppercase;">Feedback on Services</label>
-            <textarea id="stuFeedback" rows="4" placeholder="How can we improve bespoke tailoring services?"></textarea>
-            
+            <textarea id="stuFeedback" rows="4" placeholder="Feedback on Services"></textarea>
             <button type="button" class="btn" onclick="submitSurvey()">Submit Data</button>
         </div>
     </section>
@@ -180,31 +206,31 @@
         }
 
         function navTo(sectionId) {
-            const sections = document.querySelectorAll('.page-section');
-            sections.forEach(sec => sec.classList.remove('active-section'));
-
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active-section'));
             const target = document.getElementById(sectionId);
             if (target) {
                 target.classList.add('active-section');
-                
-                const navItems = document.querySelectorAll('.nav-item');
-                navItems.forEach(item => item.classList.remove('active-nav'));
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active-nav'));
                 const activeNav = document.getElementById('nav-' + sectionId);
                 if(activeNav) activeNav.classList.add('active-nav');
             }
         }
 
-        function toggleSettings() {
-            alert("Settings and User Profile features are coming soon!");
+        function filterGallery(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
+            btn.classList.add('active-filter');
+            document.querySelectorAll('.gal-item').forEach(item => {
+                item.style.display = (category === 'all' || item.classList.contains(category)) ? 'block' : 'none';
+            });
         }
+
+        function toggleSettings() { alert("Settings feature coming soon!"); }
 
         function submitSurvey() {
             const name = document.getElementById('stuName').value;
             if(name) {
-                alert("Thank you " + name + ", your data has been submitted for the HTU Research Project.");
+                alert("Thank you " + name + ", your data has been submitted for the HTU project.");
                 navTo('home');
-            } else {
-                alert("Please enter your name before submitting.");
             }
         }
     </script>
